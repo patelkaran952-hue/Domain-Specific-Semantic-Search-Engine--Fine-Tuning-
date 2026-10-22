@@ -1,0 +1,49 @@
+{
+  "changes_since_previous_checkpoint": {
+    "added": 42,
+    "changed": 0,
+    "removed": 0,
+    "unchanged": 0
+  },
+  "environment": {
+    "numpy": "2.4.4",
+    "pandas": "3.0.2",
+    "platform": "Linux-6.18.44-fc-v140-x86_64-with-glibc2.39",
+    "python": "3.12.3",
+    "pyyaml": "6.0.3",
+    "scikit_learn": "1.8.0"
+  },
+  "git_tag": "phase-01-complete",
+  "key_hashes": {
+    "data/processed/corpus_processed.jsonl": "3b603fece11381ca339457929cd0c6c9e20ac08c08c2c7ab3494967bb53ee96f",
+    "data/processed/document_ids.json": "f6eb3209cfb3da78c36e596f64600adc6af0cc2cfa93712a0c8e8dfb3108855d",
+    "data/processed/queries_processed.jsonl": "fb429e7c5ad8d236118ea3401191425886cf49318805e0d7341d03e0d0c13458",
+    "data/processed/test_query_ids.json": "d27ed81cc2b5a2805f791fe81ee785e2a475ad07966268cecad5c3bfe4689201",
+    "data/processed/train_qrels.tsv": "6e9ab53728a290a2823227ba698be75968deb7c8e17a67861f61e68f9b157bfd",
+    "data/processed/train_query_ids.json": "009983aaf5ffe9ccf29f9106d511a4fc2c51c4cf168675b8313be254143ffda0",
+    "data/processed/val_qrels.tsv": "507a1524e3fd24cae4faae4addc5bf76f6ffadc24c2d6d9ce34ec7271defd0d2",
+    "data/processed/val_query_ids.json": "96670cb15377155b15c5cd0fd835decae13542cdb4512a5cc0d40dfd64274ebf",
+    "data/raw/corpus.jsonl": "dec31c8182f3d744c7d2c09423756fd1d17cbef75808db13ba01cc0aab4d1ac6",
+    "data/raw/queries.jsonl": "8ff84a7c903f722981cd8d595c022660140c51867b27608a6d4910db86080313",
+    "data/raw/test.tsv": "0864bb985e0ca2367ba217977e72004d549054b2b06666ed9d4825ac7c21284c",
+    "data/raw/train.tsv": "a53f2114831916c096b6c37d9e54da68cef4efdcdbd5ed46533601af972acf1d"
+  },
+  "name": "Setup, ingestion, and dataset audit",
+  "not_in_git_note": "data/raw is git-ignored: restore originals and verify hashes. No models/embeddings exist yet.",
+  "phase": 1,
+  "quality_gates": {
+    "data_audit": "PASS",
+    "pytest": "PASS",
+    "smoke_test": "PASS"
+  },
+  "regeneration": {
+    "artifacts/reports/data_audit.json": "python scripts/prepare_data.py",
+    "artifacts/reports/sample_searches.json": "python scripts/inspect_dataset.py",
+    "data/processed/*": "python scripts/prepare_data.py",
+    "data/raw/*": "IMMUTABLE originals — restore from your original uploads; verify SHA256 against inventory.json.",
+    "notebooks/01_dataset_audit.ipynb": "python scripts/build_notebook_phase01.py --execute"
+  },
+  "seed": 42,
+  "status": "PASS",
+  "timestamp_utc": "2026-10-22T18:27:55+00:00"
+}

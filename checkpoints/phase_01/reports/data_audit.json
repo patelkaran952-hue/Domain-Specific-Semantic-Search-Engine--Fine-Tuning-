@@ -1,0 +1,140 @@
+{
+  "corpus": {
+    "abstract_words": {
+      "max": 1524,
+      "mean": 201.81,
+      "median": 192,
+      "min": 26,
+      "p95": 341
+    },
+    "blank_text_ids": [],
+    "blank_title_ids": [],
+    "n_documents": 5183,
+    "n_unique_ids": 5183,
+    "non_dict_metadata_ids": [],
+    "title_words": {
+      "max": 40,
+      "mean": 12.82,
+      "median": 12,
+      "min": 1,
+      "p95": 21
+    }
+  },
+  "cross_checks": {
+    "train_test_query_overlap": 0
+  },
+  "document_ordering": "lexicographic by string _id (matches document_ids.json)",
+  "generated_utc": "2026-10-22T18:26:33+00:00",
+  "leakage_gates": {
+    "no_query_straddles_partitions": true,
+    "train_rows_only_train_queries": true,
+    "train_test_disjoint": true,
+    "train_val_disjoint": true,
+    "val_rows_only_val_queries": true,
+    "val_test_disjoint": true
+  },
+  "notes": [
+    "All qrel scores are 1 (positive-only); unjudged pairs are unlabeled, not verified negatives.",
+    "Query metadata (SUPPORT/CONTRADICT annotations) is not a relevance label and is dropped from processed queries.",
+    "test.tsv is used only to enumerate reserved test query IDs; its judgments are not copied or inspected further."
+  ],
+  "processed_file_status": {
+    "corpus_processed.jsonl": "unchanged",
+    "document_ids.json": "unchanged",
+    "queries_processed.jsonl": "unchanged",
+    "test_query_ids.json": "unchanged",
+    "train_qrels.tsv": "unchanged",
+    "train_query_ids.json": "unchanged",
+    "val_qrels.tsv": "unchanged",
+    "val_query_ids.json": "unchanged"
+  },
+  "queries": {
+    "metadata_annotation_label_counts_INFO_ONLY": {
+      "CONTRADICT": 463,
+      "SUPPORT": 832
+    },
+    "n_queries": 1109,
+    "n_unique_ids": 1109,
+    "n_with_metadata": 693,
+    "query_words": {
+      "max": 39,
+      "mean": 12.38,
+      "median": 12,
+      "min": 3,
+      "p95": 21
+    }
+  },
+  "raw_file_sha256": {
+    "corpus": "dec31c8182f3d744c7d2c09423756fd1d17cbef75808db13ba01cc0aab4d1ac6",
+    "queries": "8ff84a7c903f722981cd8d595c022660140c51867b27608a6d4910db86080313",
+    "test_qrels": "0864bb985e0ca2367ba217977e72004d549054b2b06666ed9d4825ac7c21284c",
+    "train_qrels": "a53f2114831916c096b6c37d9e54da68cef4efdcdbd5ed46533601af972acf1d"
+  },
+  "reconciliation": {
+    "official_test_queries": 300,
+    "official_train_queries": 809,
+    "queries_jsonl_total": 1109,
+    "queries_without_any_qrel": 0,
+    "split_queries_sum_equals_official_train_queries": true,
+    "split_rows_sum_equals_official_train_rows": true,
+    "split_train_queries": 647,
+    "split_train_rows": 742,
+    "split_val_queries": 162,
+    "split_val_rows": 177,
+    "train_plus_test_equals_queries_jsonl": true
+  },
+  "seed": 42,
+  "status": "PASS",
+  "test_qrels_official": {
+    "n_rows": 339,
+    "n_unique_docs": 283,
+    "n_unique_queries": 300,
+    "positives_per_query": {
+      "max": 5,
+      "mean": 1.13,
+      "median": 1.0,
+      "min": 1,
+      "p95": 2
+    },
+    "positives_per_query_histogram": {
+      "1": 277,
+      "2": 14,
+      "3": 4,
+      "4": 3,
+      "5": 2
+    },
+    "score_counts": {
+      "1": 339
+    }
+  },
+  "train_qrels_official": {
+    "n_rows": 919,
+    "n_unique_docs": 565,
+    "n_unique_queries": 809,
+    "positives_per_query": {
+      "max": 5,
+      "mean": 1.14,
+      "median": 1,
+      "min": 1,
+      "p95": 2
+    },
+    "positives_per_query_histogram": {
+      "1": 732,
+      "2": 53,
+      "3": 16,
+      "4": 7,
+      "5": 1
+    },
+    "score_counts": {
+      "1": 919
+    }
+  },
+  "truncation_heuristic": {
+    "caveat": "Whitespace-word heuristic only; exact truncation will be measured with the MiniLM tokenizer in Phase 2. No text is truncated in the processed files.",
+    "docs_exceeding_heuristic_budget": 2927,
+    "fraction": 0.5647,
+    "heuristic_word_budget": 190,
+    "max_seq_length_wordpieces": 256
+  },
+  "val_fraction": 0.2
+}

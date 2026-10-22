@@ -1,0 +1,14 @@
+# Phase 1 dependencies (data audit only). Version ranges are tested floors, not exact pins.
+# Exact pins are written to artifacts/reports/environment_freeze.txt by scripts/prepare_data.py
+# from YOUR environment (CLAUDE.md section 9: do not assume wheels exist for every Python version).
+numpy>=1.26
+pandas>=2.1
+pyyaml>=6.0
+scikit-learn>=1.3
+tqdm>=4.66
+
+# Added in later phases (not required yet):
+# torch (CPU) / sentence-transformers / transformers   -> Phase 2
+# faiss-cpu                                            -> Phase 2 (verify wheel for your Python version)
+# streamlit                                            -> Phase 7
+# rank-bm25 (optional BM25 negative mining)            -> Phase 3

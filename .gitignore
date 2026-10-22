@@ -1,0 +1,18 @@
+# environment / secrets
+.venv/
+venv/
+.env
+# caches
+__pycache__/
+*.pyc
+.pytest_cache/
+.ipynb_checkpoints/
+# large / regenerable assets (hashes live in checkpoints/*/inventory.json)
+data/raw/
+artifacts/embeddings/
+artifacts/models/
+artifacts/indexes/
+*.faiss
+*.npy
+# backups
+*.zip
