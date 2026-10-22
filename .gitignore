@@ -16,3 +16,6 @@ artifacts/indexes/
 *.npy
 # backups
 *.zip
+
+# smoke-run scratch output
+artifacts/smoke/

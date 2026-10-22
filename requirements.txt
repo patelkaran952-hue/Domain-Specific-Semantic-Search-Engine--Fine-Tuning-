@@ -7,8 +7,16 @@ pyyaml>=6.0
 scikit-learn>=1.3
 tqdm>=4.66
 
+# Phase 2 (floors; run scripts/check_env.py to confirm they import on YOUR machine):
+# For a smaller CPU-only torch on Windows, install it first:
+#   python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+torch>=2.1
+sentence-transformers>=3.0
+transformers>=4.40
+huggingface_hub>=0.23
+faiss-cpu>=1.7.4
+psutil>=5.9
+
 # Added in later phases (not required yet):
-# torch (CPU) / sentence-transformers / transformers   -> Phase 2
-# faiss-cpu                                            -> Phase 2 (verify wheel for your Python version)
 # streamlit                                            -> Phase 7
 # rank-bm25 (optional BM25 negative mining)            -> Phase 3

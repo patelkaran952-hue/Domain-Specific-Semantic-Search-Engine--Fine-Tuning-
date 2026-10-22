@@ -25,6 +25,10 @@ REGEN = {
     "artifacts/reports/data_audit.json": "python scripts/prepare_data.py",
     "artifacts/reports/sample_searches.json": "python scripts/inspect_dataset.py",
     "notebooks/01_dataset_audit.ipynb": "python scripts/build_notebook_phase01.py --execute",
+    "artifacts/embeddings/*": "python scripts/run_baseline.py --rebuild-embeddings (cache is validated by corpus/model hashes)",
+    "artifacts/indexes/*": "python scripts/run_baseline.py (rebuilds FAISS index from cached embeddings)",
+    "artifacts/reports/baseline_val_*": "python scripts/run_baseline.py --force",
+    "notebooks/02_baseline_retrieval.ipynb": "python scripts/build_notebook_phase02.py --execute",
 }
 
 
@@ -58,6 +62,10 @@ def main() -> int:
     ap.add_argument("--name", required=True)
     ap.add_argument("--git", action="store_true", help="git init/commit/tag phase-XX-complete")
     ap.add_argument("--force", action="store_true", help="overwrite an existing checkpoint of this phase")
+    ap.add_argument("--require-report", action="append", default=[],
+                    help="report JSON (relative path) with a 'status' field; missing => gate NOT_RUN => PARTIAL")
+    ap.add_argument("--commands", action="append", default=[], help="resume/reproduce command line (repeatable)")
+    ap.add_argument("--limitations", default="", help="free-text limitations written to the checkpoint README")
     a = ap.parse_args()
 
     cfg = load_config()
@@ -74,7 +82,15 @@ def main() -> int:
     audit = read_json(cfg["_abs"]["reports_dir"] / "data_audit.json")
     gates = {"pytest": "PASS" if rc_t == 0 else "FAIL", "smoke_test": "PASS" if rc_s == 0 else "FAIL",
              "data_audit": audit["status"]}
-    status = "PASS" if all(v == "PASS" for v in gates.values()) else "FAIL"
+    for rel in a.require_report:
+        rp = root / rel
+        gates[Path(rel).stem] = read_json(rp).get("status", "FAIL") if rp.is_file() else "NOT_RUN"
+    if any(v == "FAIL" for v in gates.values()):
+        status = "FAIL"
+    elif any(v == "NOT_RUN" for v in gates.values()):
+        status = "PARTIAL"
+    else:
+        status = "PASS"
 
     # copy small indispensable files ------------------------------------------------------
     if ck.exists():
@@ -114,13 +130,15 @@ def main() -> int:
         "seed": cfg["project"]["seed"],
         "key_hashes": {r["path"]: r["sha256"] for r in inv if r["path"].startswith(("data/raw/", "data/processed/"))},
         "regeneration": REGEN,
-        "git_tag": f"phase-{a.phase:02d}-complete" if a.git else None,
-        "not_in_git_note": "data/raw is git-ignored: restore originals and verify hashes. No models/embeddings exist yet.",
+        "git_tag": (f"phase-{a.phase:02d}-" + ("complete" if status == "PASS" else "partial")) if a.git else None,
+        "not_in_git_note": "data/raw, artifacts/embeddings, artifacts/indexes, artifacts/models are git-ignored: restore/regenerate and verify hashes in inventory.json.",
     }
     write_json(manifest, ck / "manifest.json")
     write_json({"latest_phase": a.phase, "latest_status": status, "timestamp_utc": manifest["timestamp_utc"],
                 "checkpoint_dir": f"checkpoints/phase_{a.phase:02d}"}, prev_path)
 
+    extra_rows = "".join(f"| {k} | {v} |\n" for k, v in gates.items() if k not in ("pytest", "smoke_test", "data_audit"))
+    cmds = "\n".join(a.commands) if a.commands else "python scripts/smoke_test.py\npython -m pytest -q"
     readme = f"""# Phase {a.phase:02d} checkpoint — {a.name}
 
 **Status: {status}** | generated {manifest['timestamp_utc']}
@@ -131,20 +149,19 @@ def main() -> int:
 | pytest | {gates['pytest']} |
 | smoke_test.py | {gates['smoke_test']} |
 | data audit | {gates['data_audit']} |
-
+{extra_rows}
 ## File changes vs previous checkpoint
 {change}
 
 ## Resume / reproduce (Windows PowerShell, repo root)
 ```powershell
 conda activate scifact-search
-python scripts/prepare_data.py
-python scripts/inspect_dataset.py
-python scripts/smoke_test.py
-python -m pytest -q
-python scripts/build_notebook_phase01.py --execute
+{cmds}
 ```
 Verify integrity: compare SHA256 values in `inventory.json` (`Get-FileHash <file> -Algorithm SHA256`).
+
+## Limitations
+{a.limitations or "None recorded."}
 
 ## Contents
 `manifest.json` (versions, hashes, regeneration), `inventory.json` (every project file: path/size/SHA256),
@@ -160,8 +177,8 @@ Phase {a.phase + 1} — requires explicit user approval ("Proceed to Phase {a.ph
             run(["git", "init", "-b", "main"], root)
         ident = ["-c", "user.name=scifact-project", "-c", "user.email=noreply@example.invalid"]
         run(["git", "add", "-A"], root)
-        rc, out = run(["git", *ident, "commit", "-m", f"Phase {a.phase:02d} complete: {a.name}"], root)
-        run(["git", *ident, "tag", "-f", f"phase-{a.phase:02d}-complete"], root)
+        rc, out = run(["git", *ident, "commit", "-m", f"Phase {a.phase:02d} {status}: {a.name}"], root)
+        run(["git", *ident, "tag", "-f", manifest["git_tag"]], root)
         print("git:", out.splitlines()[0] if out else rc)
 
     print(f"Checkpoint {ck} written | status={status} | gates={gates} | files inventoried={len(inv)} | change={change}")

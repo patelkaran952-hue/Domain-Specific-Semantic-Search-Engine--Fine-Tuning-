@@ -25,16 +25,31 @@ def find_repo_root(start: Path | None = None) -> Path:
     )
 
 
+def _deep_merge(base: dict, override: dict) -> dict:
+    out = dict(base)
+    for k, v in override.items():
+        out[k] = _deep_merge(out[k], v) if isinstance(v, dict) and isinstance(out.get(k), dict) else v
+    return out
+
+
+def _read_yaml(path: Path) -> dict:
+    if not path.is_file():
+        raise ConfigError(f"Config file not found: {path}. Check the --config argument.")
+    with path.open("r", encoding="utf-8") as fh:
+        return yaml.safe_load(fh) or {}
+
+
 def load_config(path: str | Path | None = None, root: Path | None = None) -> dict[str, Any]:
-    """Load YAML config; adds cfg['_root'] and cfg['_abs'] (resolved absolute paths)."""
+    """Load configs/base.yaml, deep-merge an optional override YAML on top, and add
+    cfg['_root'], cfg['_abs'] (resolved paths) and cfg['_raw'] (raw data paths)."""
     root = Path(root).resolve() if root else find_repo_root()
-    cfg_path = Path(path) if path else root / "configs" / "base.yaml"
+    base_path = root / "configs" / "base.yaml"
+    cfg_path = Path(path) if path else base_path
     if not cfg_path.is_absolute():
         cfg_path = root / cfg_path
-    if not cfg_path.is_file():
-        raise ConfigError(f"Config file not found: {cfg_path}. Check the --config argument.")
-    with cfg_path.open("r", encoding="utf-8") as fh:
-        cfg = yaml.safe_load(fh) or {}
+    cfg = _read_yaml(base_path)
+    if cfg_path.resolve() != base_path.resolve():
+        cfg = _deep_merge(cfg, _read_yaml(cfg_path))
     missing = [s for s in REQUIRED_SECTIONS if s not in cfg]
     if missing:
         raise ConfigError(f"{cfg_path} is missing required section(s): {missing}")

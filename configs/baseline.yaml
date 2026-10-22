@@ -1,0 +1,43 @@
+# Phase 2 baseline: pretrained MiniLM, no fine-tuning. Merged on top of base.yaml.
+paths:
+  embeddings_dir: artifacts/embeddings
+  indexes_dir: artifacts/indexes
+  models_dir: artifacts/models
+
+model:
+  name: sentence-transformers/all-MiniLM-L6-v2
+  revision: null            # null = latest main; the resolved commit hash is recorded in the manifest.
+                            # After your first run, paste that hash here to pin it.
+  max_seq_length: 256       # wordpieces; longer docs are truncated (count is measured and reported)
+  embedding_dim: 384
+
+embedding:
+  batch_size: 8             # CPU / 8 GB RAM friendly
+  normalize: true           # L2-normalize; identical policy for baseline and fine-tuned models
+  dtype: float32
+  chunk_size: 256           # documents per progress/logging chunk
+
+index:
+  type: IndexFlatIP         # exact cosine search over L2-normalized vectors
+
+retrieval:
+  top_k: 100                # depth saved per query (metrics use @10 and below)
+  eval_split: val           # Phase 2 evaluates on validation ONLY; test.tsv is never touched
+
+evaluation:
+  ks: [1, 5, 10]
+  ndcg_k: 10
+  mrr_k: 10
+  precision_k: 10
+  map_k: 10
+
+checks:
+  norm_tolerance: 1.0e-4
+  score_tolerance: 1.0e-5
+  n_consistency_samples: 20
+  reproducibility_resample_docs: 32   # re-encode this many docs and compare with cached vectors
+  reproducibility_tolerance: 1.0e-4
+
+smoke:
+  n_docs: 64
+  n_queries: 8

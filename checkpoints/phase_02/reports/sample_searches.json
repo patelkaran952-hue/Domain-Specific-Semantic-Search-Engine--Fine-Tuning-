@@ -1,0 +1,212 @@
+{
+  "generated_utc": "2026-10-22T18:26:36+00:00",
+  "note": "TF-IDF sanity probe on training queries; not a reported baseline.",
+  "samples": [
+    {
+      "positives": [
+        "22080671"
+      ],
+      "positives_in_top_k": [],
+      "query": "Less than 10% of patients exposed to radiation have activated markers of mesenchymal stem cells.",
+      "query_id": "689",
+      "top_k": [
+        {
+          "corpus_id": "18953920",
+          "rank": 1,
+          "score": 0.22055666148662567,
+          "title": "The Epithelial-Mesenchymal Transition Generates Cells with Properties of Stem Cells"
+        },
+        {
+          "corpus_id": "25238950",
+          "rank": 2,
+          "score": 0.17422178387641907,
+          "title": "FGF-2 enhances intestinal stem cell survival and its expression is induced after radiation injury."
+        },
+        {
+          "corpus_id": "31293581",
+          "rank": 3,
+          "score": 0.1540111005306244,
+          "title": "Ionizing radiation-induced long-term expression of senescence markers in mice is independent of p53 and immune status."
+        },
+        {
+          "corpus_id": "24766509",
+          "rank": 4,
+          "score": 0.15320098400115967,
+          "title": "Differentiation of mesenchymal stem cells and embryonic stem cells into steroidogenic cells using steroidogenic factor-1 and liver receptor homolog-1."
+        },
+        {
+          "corpus_id": "3863543",
+          "rank": 5,
+          "score": 0.14982351660728455,
+          "title": "Mesenchymal Inflammation Drives Genotoxic Stress in Hematopoietic Stem Cells and Predicts Disease Evolution in Human Pre-leukemia."
+        }
+      ]
+    },
+    {
+      "positives": [
+        "10874408"
+      ],
+      "positives_in_top_k": [
+        "10874408"
+      ],
+      "query": "Crossover hot spots are found within gene promoters in Saccharomyces cerevisiae.",
+      "query_id": "293",
+      "top_k": [
+        {
+          "corpus_id": "10874408",
+          "rank": 1,
+          "score": 0.16438066959381104,
+          "title": "Mapping Meiotic Single-Strand DNA Reveals a New Landscape of DNA Double-Strand Breaks in Saccharomyces cerevisiae"
+        },
+        {
+          "corpus_id": "32638085",
+          "rank": 2,
+          "score": 0.15313756465911865,
+          "title": "Histone acetylation and deacetylation in yeast"
+        },
+        {
+          "corpus_id": "13949015",
+          "rank": 3,
+          "score": 0.13102664053440094,
+          "title": "LINE-1 Retrotransposition Activity in Human Genomes"
+        },
+        {
+          "corpus_id": "21170174",
+          "rank": 4,
+          "score": 0.12990066409111023,
+          "title": "Crossover and noncrossover pathways in mouse meiosis."
+        },
+        {
+          "corpus_id": "10086360",
+          "rank": 5,
+          "score": 0.12446145713329315,
+          "title": "High-resolution sperm typing of meiotic recombination in the mouse MHC Ebeta gene."
+        }
+      ]
+    },
+    {
+      "positives": [
+        "23418635"
+      ],
+      "positives_in_top_k": [
+        "23418635"
+      ],
+      "query": "In a naive state, blocking Wingless-Int-1 secretion from mouse embryonic stem cells inhibits self-renewal of the mouse embryonic stem cells.",
+      "query_id": "568",
+      "top_k": [
+        {
+          "corpus_id": "23418635",
+          "rank": 1,
+          "score": 0.27863800525665283,
+          "title": "Embryonic stem cells require Wnt proteins to prevent differentiation to epiblast stem cells"
+        },
+        {
+          "corpus_id": "20524091",
+          "rank": 2,
+          "score": 0.2345685362815857,
+          "title": "Chaperoning stem cells: a role for heat shock proteins in the modulation of stem cell self-renewal and differentiation?"
+        },
+        {
+          "corpus_id": "14191255",
+          "rank": 3,
+          "score": 0.1872493326663971,
+          "title": "Wdr5 Mediates Self-Renewal and Reprogramming via the Embryonic Stem Cell Core Transcriptional Network"
+        },
+        {
+          "corpus_id": "6441369",
+          "rank": 4,
+          "score": 0.18534275889396667,
+          "title": "MLL1 Inhibition Reprograms Epiblast Stem Cells to Naive Pluripotency."
+        },
+        {
+          "corpus_id": "42484543",
+          "rank": 5,
+          "score": 0.18221579492092133,
+          "title": "The transcriptome profile of human embryonic stem cells as defined by SAGE."
+        }
+      ]
+    },
+    {
+      "positives": [
+        "1686881"
+      ],
+      "positives_in_top_k": [],
+      "query": "Sudden death can occur in patients with complex ventricular arrhythmias.",
+      "query_id": "1111",
+      "top_k": [
+        {
+          "corpus_id": "23117378",
+          "rank": 1,
+          "score": 0.18945740163326263,
+          "title": "Sudden infant death syndrome and unclassified sudden infant deaths: a definitional and diagnostic approach."
+        },
+        {
+          "corpus_id": "21050357",
+          "rank": 2,
+          "score": 0.15925544500350952,
+          "title": "Research Priorities in Sudden Unexpected Infant Death: An International Consensus."
+        },
+        {
+          "corpus_id": "21789744",
+          "rank": 3,
+          "score": 0.14508938789367676,
+          "title": "Effect of exercise-induced ischemia on QT interval dispersion."
+        },
+        {
+          "corpus_id": "2032877",
+          "rank": 4,
+          "score": 0.13745597004890442,
+          "title": "Predicting mortality of patients hospitalized for acutely exacerbated chronic obstructive pulmonary disease."
+        },
+        {
+          "corpus_id": "2613775",
+          "rank": 5,
+          "score": 0.12438791990280151,
+          "title": "Sudden infant death syndrome."
+        }
+      ]
+    },
+    {
+      "positives": [
+        "4709641"
+      ],
+      "positives_in_top_k": [
+        "4709641"
+      ],
+      "query": "Converting apoE4 to apoE3 by gene editing prevents the pathology associated with apoE4 in human iPSCderived neurons.",
+      "query_id": "286",
+      "top_k": [
+        {
+          "corpus_id": "4709641",
+          "rank": 1,
+          "score": 0.4823591709136963,
+          "title": "Gain of toxic Apolipoprotein E4 effects in Human iPSC-Derived Neurons Is Ameliorated by a Small-Molecule Structure Corrector"
+        },
+        {
+          "corpus_id": "47018050",
+          "rank": 2,
+          "score": 0.13176733255386353,
+          "title": "CRISPR–Cas9 genome editing induces a p53-mediated DNA damage response"
+        },
+        {
+          "corpus_id": "15347087",
+          "rank": 3,
+          "score": 0.12263362854719162,
+          "title": "Amyloid accumulation is a late event in sporadic Alzheimer's disease-like pathology in nontransgenic rats"
+        },
+        {
+          "corpus_id": "7029990",
+          "rank": 4,
+          "score": 0.08851855248212814,
+          "title": "Stress-induced apoptosis associated with null mutation of ADAR1 RNA editing deaminase gene."
+        },
+        {
+          "corpus_id": "4347374",
+          "rank": 5,
+          "score": 0.08726248145103455,
+          "title": "Broad antiretroviral defence by human APOBEC3G through lethal editing of nascent reverse transcripts"
+        }
+      ]
+    }
+  ]
+}
