@@ -1,0 +1,45 @@
+{
+  "inputs_sha256": {
+    "corpus_processed.jsonl": "3b603fece11381ca339457929cd0c6c9e20ac08c08c2c7ab3494967bb53ee96f",
+    "train_qrels.tsv": "6e9ab53728a290a2823227ba698be75968deb7c8e17a67861f61e68f9b157bfd",
+    "train_query_ids.json": "009983aaf5ffe9ccf29f9106d511a4fc2c51c4cf168675b8313be254143ffda0"
+  },
+  "mining": {
+    "bm25": {
+      "b": 0.75,
+      "k1": 1.5,
+      "token_pattern": "(?u)\\b\\w+\\b"
+    },
+    "candidate_depth": 50,
+    "flag_score_ratio": 0.95,
+    "max_score_ratio": null,
+    "min_score": 0.0,
+    "n_samples_for_inspection": 12,
+    "pool_size": 5,
+    "skip_top": 0,
+    "triplets_per_pair": 1
+  },
+  "provenance": {
+    "baseline_report_sha256": "02a33d93e65120eb669a8a55b9e292b83b4e80fa61515f35c92f060bf9545e9d",
+    "dense_top10_matches_faiss_index_on_sample": true,
+    "embeddings_sha256": "3feadf339a3a1e1e093d8f77f74860bcb7d904833573d405a3152b8d5ddda0d3",
+    "model": {
+      "device": "cpu",
+      "embedding_dim": 384,
+      "max_seq_length": 256,
+      "model_name": "sentence-transformers/all-MiniLM-L6-v2",
+      "requested_revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+      "resolved_revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+      "versions": {
+        "sentence_transformers": "5.6.0",
+        "torch": "2.12.1+cpu",
+        "transformers": "5.12.1"
+      },
+      "weights_file": "model.safetensors",
+      "weights_sha256": "53aa51172d142c89d9012cce15ae4d6cc0ca6895895114379cacb4fab128d9db"
+    }
+  },
+  "seed": 42,
+  "source": "dense",
+  "warning": "Negatives are unjudged top-ranked documents; some are likely false negatives."
+}

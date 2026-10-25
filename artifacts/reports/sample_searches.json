@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-10-22T18:26:36+00:00",
+  "generated_utc": "2026-10-23T13:48:36+00:00",
   "note": "TF-IDF sanity probe on training queries; not a reported baseline.",
   "samples": [
     {
@@ -137,7 +137,7 @@
         {
           "corpus_id": "23117378",
           "rank": 1,
-          "score": 0.18945740163326263,
+          "score": 0.18945738673210144,
           "title": "Sudden infant death syndrome and unclassified sudden infant deaths: a definitional and diagnostic approach."
         },
         {
@@ -161,7 +161,7 @@
         {
           "corpus_id": "2613775",
           "rank": 5,
-          "score": 0.12438791990280151,
+          "score": 0.12438791245222092,
           "title": "Sudden infant death syndrome."
         }
       ]

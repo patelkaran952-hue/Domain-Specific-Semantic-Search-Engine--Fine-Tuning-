@@ -1,0 +1,26 @@
+{
+  "inputs_sha256": {
+    "corpus_processed.jsonl": "3b603fece11381ca339457929cd0c6c9e20ac08c08c2c7ab3494967bb53ee96f",
+    "train_qrels.tsv": "6e9ab53728a290a2823227ba698be75968deb7c8e17a67861f61e68f9b157bfd",
+    "train_query_ids.json": "009983aaf5ffe9ccf29f9106d511a4fc2c51c4cf168675b8313be254143ffda0"
+  },
+  "mining": {
+    "bm25": {
+      "b": 0.75,
+      "k1": 1.5,
+      "token_pattern": "(?u)\\b\\w+\\b"
+    },
+    "candidate_depth": 50,
+    "flag_score_ratio": 0.95,
+    "max_score_ratio": null,
+    "min_score": 0.0,
+    "n_samples_for_inspection": 12,
+    "pool_size": 5,
+    "skip_top": 0,
+    "triplets_per_pair": 1
+  },
+  "provenance": {},
+  "seed": 42,
+  "source": "bm25",
+  "warning": "Negatives are unjudged top-ranked documents; some are likely false negatives."
+}

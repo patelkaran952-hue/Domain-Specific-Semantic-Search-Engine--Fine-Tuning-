@@ -39,17 +39,18 @@ def _read_yaml(path: Path) -> dict:
         return yaml.safe_load(fh) or {}
 
 
-def load_config(path: str | Path | None = None, root: Path | None = None) -> dict[str, Any]:
-    """Load configs/base.yaml, deep-merge an optional override YAML on top, and add
-    cfg['_root'], cfg['_abs'] (resolved paths) and cfg['_raw'] (raw data paths)."""
+def load_config(path: str | Path | list | tuple | None = None, root: Path | None = None) -> dict[str, Any]:
+    """Load configs/base.yaml and deep-merge zero or more override YAMLs (in order) on top.
+    Adds cfg['_root'], cfg['_abs'] (resolved paths) and cfg['_raw'] (raw data paths)."""
     root = Path(root).resolve() if root else find_repo_root()
     base_path = root / "configs" / "base.yaml"
-    cfg_path = Path(path) if path else base_path
-    if not cfg_path.is_absolute():
-        cfg_path = root / cfg_path
     cfg = _read_yaml(base_path)
-    if cfg_path.resolve() != base_path.resolve():
-        cfg = _deep_merge(cfg, _read_yaml(cfg_path))
+    paths = [] if path is None else ([path] if isinstance(path, (str, Path)) else list(path))
+    cfg_path = base_path
+    for item in paths:
+        cfg_path = Path(item) if Path(item).is_absolute() else root / item
+        if cfg_path.resolve() != base_path.resolve():
+            cfg = _deep_merge(cfg, _read_yaml(cfg_path))
     missing = [s for s in REQUIRED_SECTIONS if s not in cfg]
     if missing:
         raise ConfigError(f"{cfg_path} is missing required section(s): {missing}")

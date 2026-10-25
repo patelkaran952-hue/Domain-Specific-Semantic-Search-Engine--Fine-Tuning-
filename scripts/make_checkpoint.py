@@ -29,6 +29,9 @@ REGEN = {
     "artifacts/indexes/*": "python scripts/run_baseline.py (rebuilds FAISS index from cached embeddings)",
     "artifacts/reports/baseline_val_*": "python scripts/run_baseline.py --force",
     "notebooks/02_baseline_retrieval.ipynb": "python scripts/build_notebook_phase02.py --execute",
+    "data/mining/*": "python scripts/mine_negatives.py  (deterministic; needs Phase 2 embeddings for the dense source)",
+    "artifacts/reports/negative_mining_*": "python scripts/mine_negatives.py --force ; python scripts/verify_mining.py",
+    "notebooks/03_negative_mining.ipynb": "python scripts/build_notebook_phase03.py --execute",
 }
 
 
@@ -87,7 +90,7 @@ def main() -> int:
         gates[Path(rel).stem] = read_json(rp).get("status", "FAIL") if rp.is_file() else "NOT_RUN"
     if any(v == "FAIL" for v in gates.values()):
         status = "FAIL"
-    elif any(v == "NOT_RUN" for v in gates.values()):
+    elif any(v in ("NOT_RUN", "PARTIAL") for v in gates.values()):
         status = "PARTIAL"
     else:
         status = "PASS"

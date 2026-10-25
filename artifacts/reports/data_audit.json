@@ -24,7 +24,7 @@
     "train_test_query_overlap": 0
   },
   "document_ordering": "lexicographic by string _id (matches document_ids.json)",
-  "generated_utc": "2026-10-22T18:26:33+00:00",
+  "generated_utc": "2026-10-23T13:47:29+00:00",
   "leakage_gates": {
     "no_query_straddles_partitions": true,
     "train_rows_only_train_queries": true,

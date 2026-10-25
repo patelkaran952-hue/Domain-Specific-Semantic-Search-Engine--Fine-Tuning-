@@ -1,0 +1,2 @@
+timestamp_utc,phase,run_id,model,revision,split,n_queries,recall@1,recall@5,recall@10,precision@10,mrr@10,ndcg@10,map@10,seed,status
+2026-10-23T14:01:42+00:00,2,baseline_minilm_val,sentence-transformers/all-MiniLM-L6-v2,1110a243fdf4706b3f48f1d95db1a4f5529b4d41,val,162,0.532922,0.763374,0.793210,0.085185,0.653557,0.681618,0.639839,42,PASS

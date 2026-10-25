@@ -1,6 +1,6 @@
 {
-  "checkpoint_dir": "checkpoints/phase_02",
-  "latest_phase": 2,
+  "checkpoint_dir": "checkpoints/phase_04",
+  "latest_phase": 4,
   "latest_status": "PARTIAL",
-  "timestamp_utc": "2026-10-22T18:49:03+00:00"
+  "timestamp_utc": "2026-10-25T08:38:14+00:00"
 }

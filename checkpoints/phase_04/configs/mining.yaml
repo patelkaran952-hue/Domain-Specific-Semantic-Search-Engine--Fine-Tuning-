@@ -1,0 +1,20 @@
+# Phase 3: positive-pair construction and hard-negative mining. Stack on top of baseline.yaml:
+#   --config configs/baseline.yaml configs/mining.yaml
+# Mining uses TRAINING-partition qrels only (data/processed/train_qrels.tsv). val_qrels.tsv and test.tsv are never read.
+paths:
+  mining_dir: data/mining
+
+mining:
+  sources: [bm25, dense]       # bm25 = lexical; dense = baseline MiniLM + exact FAISS index from Phase 2
+  candidate_depth: 50          # top-N retrieved per training query before filtering
+  skip_top: 0                  # ranks to skip at the top (0 = keep the hardest candidates; raise to reduce false negatives)
+  pool_size: 5                 # eligible negatives kept per query (first by rank after filtering)
+  max_score_ratio: null        # e.g. 0.95 drops candidates scoring >= 95% of the best positive's score (false-negative guard); null = off
+  min_score: 0.0               # candidates must score strictly above this (a zero-overlap or non-positive-cosine doc is not "hard")
+  flag_score_ratio: 0.95       # candidates at/above this ratio are FLAGGED as higher false-negative risk in reports
+  triplets_per_pair: 1         # one (query, positive, negative) triplet per pair, negative drawn from the pool with the seeded RNG
+  n_samples_for_inspection: 12
+  bm25:
+    k1: 1.5
+    b: 0.75
+    token_pattern: "(?u)\\b\\w+\\b"   # lowercase word tokens; no stopword removal or stemming

@@ -1,6 +1,6 @@
 # Domain-Specific Scientific Semantic Search Engine (SciFact)
 
-> **Status: Phase 2 code complete; baseline run pending on the user's machine (see below).** No fine-tuning yet.
+> **Status: Phase 3 code complete; dense mining pending on the user's machine (see below).** No fine-tuning yet.
 > This README is a stub that grows each phase. Project rules live in [`CLAUDE.md`](CLAUDE.md).
 
 ## Goal
@@ -38,6 +38,45 @@ python scripts/build_notebook_phase02.py --execute
 Outputs: `artifacts/embeddings/baseline_docs.npy`, `artifacts/indexes/baseline_flatip.faiss` (+ document-ID map),
 `artifacts/reports/baseline_val_*`, and a row in `experiments/runs.csv`. Re-running refuses to overwrite an existing
 report unless `--force` is given; the embedding cache is reused only if corpus/model/config hashes match.
+
+## Phase 3 commands (positive pairs + hard-negative mining, training queries only)
+```powershell
+python scripts/mine_negatives.py --source bm25     # lexical negatives (seconds)
+python scripts/mine_negatives.py --source dense    # baseline-MiniLM negatives (needs Phase 2 embeddings + index)
+python scripts/verify_mining.py                    # re-checks all exit gates from disk; PASS only if every source exists
+python scripts/build_notebook_phase03.py --execute
+```
+Outputs in `data/mining/`: `train_positive_pairs.jsonl`, `hard_negatives_<src>.jsonl` (with rank/score/provenance),
+`train_triplets_<src>.jsonl`, `mining_settings_<src>.json`, `samples_<src>.md` (read these for false negatives).
+`configs/finetune.yaml` prepares two experiments that share every hyperparameter: positive-only vs positive + mined negative.
+**Mined negatives are unjudged top-ranked documents; some are relevant.** Only `train_qrels.tsv` is read.
+
+## Phase 3 commands (training pairs + hard-negative mining; training queries only)
+```powershell
+python scripts/mine_negatives.py --source bm25    # lexical negatives
+python scripts/mine_negatives.py --source dense   # baseline-MiniLM negatives (needs Phase 2 embeddings + index)
+python scripts/verify_mining.py                   # exit gates (PASS / PARTIAL / FAIL)
+python scripts/build_notebook_phase03.py --execute
+```
+Outputs in `data/mining/`: `train_positive_pairs.jsonl`, `hard_negatives_<src>.jsonl` (with rank/score/provenance),
+`train_triplets_<src>.jsonl`, `mining_settings_<src>.json`, `samples_<src>.md`. Mined negatives are *unjudged* top-ranked
+documents; false-negative risk is flagged (`false_negative_risk_flag`) and optionally filtered with
+`mining.max_score_ratio`. `configs/finetune.yaml` prepares two comparable Phase 4 experiments (positive-only vs. mined
+negatives); nothing has been trained.
+
+## Phase 4 commands (fine-tuning; CPU, validation-only selection)
+```powershell
+python -m pip install "sentence-transformers[train]"
+python scripts/finetune.py --experiment positive_only --smoke   # pipeline check on 32 rows (no claims made)
+python scripts/finetune.py --experiment positive_only           # (anchor, positive) pairs, MNRL
+python scripts/finetune.py --experiment hard_negative           # (anchor, positive, mined dense negative), MNRL consumes the negative
+python scripts/verify_finetune.py
+python scripts/build_notebook_phase04.py --execute
+```
+Both runs share every hyperparameter in `configs/finetune.yaml` (`training:` block); they differ only in data/columns.
+Each run saves `artifacts/models/<run_id>/final` (best epoch on validation), `training_config_resolved.json`,
+`train_log_history.json`, `val_metrics_by_epoch.json`, and `artifacts/reports/finetune_<run_id>_report.json`.
+Existing model directories are never overwritten. `test.tsv` is not read.
 
 ## Data design (summary)
 - 5,183 documents, 1,109 queries; official `train.tsv` (919 positives / 809 queries), `test.tsv` (339 / 300).

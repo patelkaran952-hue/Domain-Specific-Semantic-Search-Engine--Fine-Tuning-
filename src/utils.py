@@ -58,3 +58,25 @@ def write_json(obj: Any, path: Path) -> None:
 def read_json(path: Path) -> Any:
     with Path(path).open("r", encoding="utf-8") as fh:
         return json.load(fh)
+
+
+def install_staged(stage_dir: Path, dest_dir: Path, force: bool = False) -> dict[str, str]:
+    """Copy staged files into dest_dir. Existing files whose content would CHANGE are never overwritten
+    unless force=True (raises FileExistsError naming them). Returns {name: created|unchanged|overwritten}."""
+    import shutil
+
+    stage_dir, dest_dir = Path(stage_dir), Path(dest_dir)
+    conflicts = [f.name for f in stage_dir.iterdir()
+                 if (dest_dir / f.name).exists() and sha256_file(dest_dir / f.name) != sha256_file(f)]
+    if conflicts and not force:
+        raise FileExistsError(f"Existing files would change: {conflicts}. Review, then re-run with --force.")
+    dest_dir.mkdir(parents=True, exist_ok=True)
+    status = {}
+    for f in sorted(stage_dir.iterdir()):
+        dest = dest_dir / f.name
+        if dest.exists() and sha256_file(dest) == sha256_file(f):
+            status[f.name] = "unchanged"
+        else:
+            status[f.name] = "overwritten" if dest.exists() else "created"
+            shutil.copyfile(f, dest)
+    return status

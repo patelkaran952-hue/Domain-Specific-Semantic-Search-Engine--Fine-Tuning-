@@ -6,8 +6,7 @@ paths:
 
 model:
   name: sentence-transformers/all-MiniLM-L6-v2
-  revision: null            # null = latest main; the resolved commit hash is recorded in the manifest.
-                            # After your first run, paste that hash here to pin it.
+  revision: 1110a243fdf4706b3f48f1d95db1a4f5529b4d41   # pinned to the revision resolved by the user's Phase 2 run
   max_seq_length: 256       # wordpieces; longer docs are truncated (count is measured and reported)
   embedding_dim: 384
 
