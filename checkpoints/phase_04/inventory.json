@@ -41,12 +41,87 @@
       "size_bytes": 944
     },
     {
+      "path": "artifacts/models/ft_hardneg_dense/train.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
       "path": "artifacts/models/ft_hardneg_dense/training_config_resolved.json",
       "sha256": "92f1abcc18e8ed46ba10a6a18f96f7591fdfed2e23e2c89745ae365114107e78",
       "size_bytes": 1991
     },
     {
+      "path": "artifacts/models/ft_hardneg_dense.incomplete-20261025-092855/training_config_resolved.json",
+      "sha256": "92f1abcc18e8ed46ba10a6a18f96f7591fdfed2e23e2c89745ae365114107e78",
+      "size_bytes": 1991
+    },
+    {
+      "path": "artifacts/models/ft_pos_only/final/1_Pooling/config.json",
+      "sha256": "bb80272f7adad76ce93073c25e18113ee66be1e91f60bcdd72aa41d05b28247e",
+      "size_bytes": 94
+    },
+    {
+      "path": "artifacts/models/ft_pos_only/final/config.json",
+      "sha256": "d3b88be3af77b30eed34efd38bf5e5d3dd3505a88f87d1970225cbfb64038dbc",
+      "size_bytes": 776
+    },
+    {
+      "path": "artifacts/models/ft_pos_only/final/config_sentence_transformers.json",
+      "sha256": "9fc71de18187394136cb3438b4d7f4950425237f57a6229a090315b93b898fe5",
+      "size_bytes": 295
+    },
+    {
+      "path": "artifacts/models/ft_pos_only/final/model.safetensors",
+      "sha256": "981fbdeb06013fd846c95fca13201a4d3dd998f742e66d29b86c7289d8e92153",
+      "size_bytes": 90864192
+    },
+    {
+      "path": "artifacts/models/ft_pos_only/final/modules.json",
+      "sha256": "5286260f53f0f5d318eb02f1565fd30f7ec7c6d305f41ad29e2bb3ec974046a6",
+      "size_bytes": 448
+    },
+    {
+      "path": "artifacts/models/ft_pos_only/final/README.md",
+      "sha256": "406a750519a1512297b87493266d33c14abf178fb76cceb75aa0779aefa4b93d",
+      "size_bytes": 53920
+    },
+    {
+      "path": "artifacts/models/ft_pos_only/final/sentence_bert_config.json",
+      "sha256": "5fee3fcdc4a727fad422f0fed0c867b0921eefa9051de221521956ed42eb4c19",
+      "size_bytes": 250
+    },
+    {
+      "path": "artifacts/models/ft_pos_only/final/tokenizer.json",
+      "sha256": "851ca67100d372ca3ae031a6abd168f53489eebfd7d89523f35c5c9b4d372c3c",
+      "size_bytes": 711649
+    },
+    {
+      "path": "artifacts/models/ft_pos_only/final/tokenizer_config.json",
+      "sha256": "30d8f02acb71d4c45410174bf83f9150823633a045c8b60eff40cb105b29fb76",
+      "size_bytes": 617
+    },
+    {
+      "path": "artifacts/models/ft_pos_only/train.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "artifacts/models/ft_pos_only/train_log_history.json",
+      "sha256": "c4b014291cc3422d62fe2aee7d4d700e2e9a9ac64470d29c68f96ee077d06993",
+      "size_bytes": 4855
+    },
+    {
       "path": "artifacts/models/ft_pos_only/training_config_resolved.json",
+      "sha256": "2e3701f7dc321d77283041869d3d1e773dc6b92f3ea956437841c40a4fe5c8bc",
+      "size_bytes": 1836
+    },
+    {
+      "path": "artifacts/models/ft_pos_only/val_metrics_by_epoch.json",
+      "sha256": "a376ddd394730ea658ecd62a12580292fbf284f0ae14b2fa4a8c8892b22196ea",
+      "size_bytes": 1993
+    },
+    {
+      "path": "artifacts/models/ft_pos_only.incomplete-20261025-090034/training_config_resolved.json",
       "sha256": "2e3701f7dc321d77283041869d3d1e773dc6b92f3ea956437841c40a4fe5c8bc",
       "size_bytes": 1836
     },
@@ -76,14 +151,19 @@
       "size_bytes": 33986
     },
     {
+      "path": "artifacts/reports/finetune_ft_pos_only_report.json",
+      "sha256": "eb433d6a025e20310b0586726cfeddca0d808977875d609726f4609460aded18",
+      "size_bytes": 5464
+    },
+    {
       "path": "artifacts/reports/finetune_pretrained_val_evaluator.json",
       "sha256": "04c2927efbc6a4aa87fc4a61d95a1a34d7d2b3fa998e04280fd5c5be7cdd8f37",
       "size_bytes": 1127
     },
     {
       "path": "artifacts/reports/finetune_verification.json",
-      "sha256": "888cf11af4041d3ed73101d822290868e88df07e9d659eae938c7d6ab01e12ce",
-      "size_bytes": 303
+      "sha256": "ec98c855f18568c4da7a3a9872c39ddfbbc09928cc886147d6fe72e7a439ef94",
+      "size_bytes": 695
     },
     {
       "path": "artifacts/reports/negative_mining_bm25_report.json",
@@ -316,6 +396,11 @@
       "size_bytes": 0
     },
     {
+      "path": "experiments/finetune_runs.csv",
+      "sha256": "51c05a3dfe50b096554a3d82f11fcf97e643e0e513514e0203f281a1212214ad",
+      "size_bytes": 723
+    },
+    {
       "path": "experiments/runs.csv",
       "sha256": "3d82db443d9c344358ecabe92d51ddd650b29f286820de73144ec6c1ba5629eb",
       "size_bytes": 342
@@ -337,8 +422,8 @@
     },
     {
       "path": "notebooks/04_finetuning.ipynb",
-      "sha256": "f38a47c3c1f90ea71501e728d4b67347b3ca0cf7ef79797b17ce5a3b6f15352c",
-      "size_bytes": 8707
+      "sha256": "13ec422c72f9d1656e9e03304d0641cbf287af682ba2126298fd4478715b4e2c",
+      "size_bytes": 105783
     },
     {
       "path": "README.md",
@@ -381,9 +466,14 @@
       "size_bytes": 1542
     },
     {
+      "path": "scripts/diagnose_runs.py",
+      "sha256": "b5096ae1a5a59a9c39bd17d58ea31f997c073f939a7dbf56f3a1c3d2d63c37aa",
+      "size_bytes": 1313
+    },
+    {
       "path": "scripts/finetune.py",
-      "sha256": "4a2447a24c3f73beb6ef483995fe75e6f31b5e3cd214069e9504a7423a890448",
-      "size_bytes": 2379
+      "sha256": "c4687d68a157ffd14bf7f752be10d172f937bd080c98d734822fa95990568db8",
+      "size_bytes": 2639
     },
     {
       "path": "scripts/inspect_dataset.py",
@@ -441,6 +531,11 @@
       "size_bytes": 3319
     },
     {
+      "path": "src/diagnose.py",
+      "sha256": "5de81ba966916049addda211207a3b181784c048ff46e0bd174c193032320bbc",
+      "size_bytes": 4137
+    },
+    {
       "path": "src/embed.py",
       "sha256": "897c5d3e885d590257442f98f3957d57cc424f4a7adf0893f8d31f64f7d578cc",
       "size_bytes": 5973
@@ -477,8 +572,8 @@
     },
     {
       "path": "src/train.py",
-      "sha256": "9d6a0db15ebdef1f1df07662b176e3d1a636441968c3f21e44caecf552687781",
-      "size_bytes": 19274
+      "sha256": "4c070b991d92a942d5301496c12cd89a65c0382bfc54527088090c7a6a9f93b6",
+      "size_bytes": 22240
     },
     {
       "path": "src/train_backend.py",
@@ -537,11 +632,11 @@
     },
     {
       "path": "tests/test_train.py",
-      "sha256": "94d97909a0036bd0d73b7af521460c415bf0db8fb5174cc672a39a579b576902",
-      "size_bytes": 10560
+      "sha256": "138b89772fce485a96bc885dcba2bc578c4f4460c37e619785ad7eb8e69caacd",
+      "size_bytes": 13250
     }
   ],
-  "generated_utc": "2026-10-25T08:38:12+00:00",
-  "n_files": 108,
+  "generated_utc": "2026-10-25T09:48:15+00:00",
+  "n_files": 127,
   "phase": 4
 }

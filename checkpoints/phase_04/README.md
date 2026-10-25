@@ -1,6 +1,6 @@
 # Phase 04 checkpoint — MiniLM fine-tuning
 
-**Status: PARTIAL** | generated 2026-10-25T08:38:14+00:00
+**Status: PARTIAL** | generated 2026-10-25T09:48:19+00:00
 
 ## Quality gates (real executions)
 | Gate | Result |
@@ -11,7 +11,7 @@
 | finetune_verification | PARTIAL |
 
 ## File changes vs previous checkpoint
-{'added': 55, 'removed': 0, 'changed': 12, 'unchanged': 41}
+{'added': 127, 'changed': 0, 'unchanged': 0, 'removed': 0}
 
 ## Resume / reproduce (Windows PowerShell, repo root)
 ```powershell

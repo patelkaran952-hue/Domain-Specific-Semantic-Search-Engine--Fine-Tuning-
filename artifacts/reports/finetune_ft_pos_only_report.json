@@ -1,0 +1,145 @@
+{
+  "base_model": {
+    "device": "cpu",
+    "embedding_dim": 384,
+    "max_seq_length": 256,
+    "model_name": "sentence-transformers/all-MiniLM-L6-v2",
+    "requested_revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "resolved_revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "versions": {
+      "sentence_transformers": "5.6.0",
+      "torch": "2.12.1+cpu",
+      "transformers": "5.12.1"
+    },
+    "weights_file": "model.safetensors",
+    "weights_sha256": "53aa51172d142c89d9012cce15ae4d6cc0ca6895895114379cacb4fab128d9db"
+  },
+  "best_checkpoint": "D:\\Domain-Specific Semantic Search Engine (Fine Tuning)\\artifacts\\models\\ft_pos_only\\checkpoints\\checkpoint-186",
+  "caveats": [
+    "Mined negatives (if used) are unjudged and may include false negatives.",
+    "Validation drives best-epoch selection within a run; test.tsv was not used."
+  ],
+  "columns": [
+    "anchor",
+    "positive"
+  ],
+  "data": {
+    "file": "data/mining/train_positive_pairs.jsonl",
+    "n_rows": 742,
+    "sha256": "30bd24d61bd53201668f115bc48bfbc2a9a928cfd6df47db5f5da9ad3d4efba3"
+  },
+  "experiment": "positive_only",
+  "gates": {
+    "data:negative_never_a_known_positive": true,
+    "data:no_duplicate_rows": true,
+    "data:no_validation_or_test_queries": true,
+    "data:pairs_are_judged_train_positives": true,
+    "data:queries_are_training_queries_only": true,
+    "embedding_dim_preserved": true,
+    "max_seq_length_preserved": true,
+    "model_saved": true,
+    "reloaded_equals_in_memory": true,
+    "reloaded_model_embeds_finite_correct_shape": true,
+    "test_split_untouched_by_construction": true,
+    "training_logged": true,
+    "validation_evaluated_each_epoch": true,
+    "validation_metric_present_every_stage": true
+  },
+  "generated_utc": "2026-10-25T09:20:18+00:00",
+  "hyperparameters": {
+    "batch_sampler": "no_duplicates",
+    "batch_size": 8,
+    "epochs": 2,
+    "learning_rate": 2e-05,
+    "loss": "MultipleNegativesRankingLoss",
+    "max_seq_length": 256,
+    "steps_per_epoch": 93,
+    "total_steps": 186,
+    "warmup_ratio": 0.1,
+    "warmup_steps": 19,
+    "weight_decay": 0.01
+  },
+  "library_versions": {
+    "accelerate": "1.15.0",
+    "datasets": "5.1.0",
+    "sentence_transformers": "5.6.0",
+    "torch": "2.12.1+cpu",
+    "transformers": "5.12.1"
+  },
+  "memory_mb": {
+    "note": "sampled every 2s; not a precise profile",
+    "peak_rss_observed": 1608.9
+  },
+  "model_dir": "artifacts\\models\\ft_pos_only\\final",
+  "model_weights_sha256": "981fbdeb06013fd846c95fca13201a4d3dd998f742e66d29b86c7289d8e92153",
+  "reload_check": {
+    "all_finite": true,
+    "max_abs_diff": 0.0,
+    "shapes_match": true,
+    "within_tol": true
+  },
+  "run_id": "ft_pos_only",
+  "seed": 42,
+  "smoke": false,
+  "status": "PASS",
+  "timing_s": {
+    "global_step": 186,
+    "train_wall": 974.2,
+    "trainer_reported_train_runtime": 965.3564
+  },
+  "uses_mined_negatives": false,
+  "validation": {
+    "abs_change_primary": 0.015796260829473163,
+    "best_primary": 0.6974140171555684,
+    "best_stage": "epoch_2",
+    "by_stage": {
+      "epoch_1": {
+        "val_cosine_accuracy@1": 0.5370370370370371,
+        "val_cosine_accuracy@10": 0.8395061728395061,
+        "val_cosine_accuracy@5": 0.7839506172839507,
+        "val_cosine_map@10": 0.6401308054085831,
+        "val_cosine_mrr@10": 0.6486356065059768,
+        "val_cosine_ndcg@10": 0.6910202894414901,
+        "val_cosine_precision@1": 0.5370370370370371,
+        "val_cosine_precision@10": 0.09012345679012344,
+        "val_cosine_precision@5": 0.16666666666666666,
+        "val_cosine_recall@1": 0.5174897119341564,
+        "val_cosine_recall@10": 0.8364197530864198,
+        "val_cosine_recall@5": 0.7757201646090535
+      },
+      "epoch_2": {
+        "val_cosine_accuracy@1": 0.5555555555555556,
+        "val_cosine_accuracy@10": 0.8395061728395061,
+        "val_cosine_accuracy@5": 0.808641975308642,
+        "val_cosine_map@10": 0.6481481481481481,
+        "val_cosine_mrr@10": 0.6583676268861455,
+        "val_cosine_ndcg@10": 0.6974140171555684,
+        "val_cosine_precision@1": 0.5555555555555556,
+        "val_cosine_precision@10": 0.09012345679012344,
+        "val_cosine_precision@5": 0.17037037037037034,
+        "val_cosine_recall@1": 0.5360082304526749,
+        "val_cosine_recall@10": 0.8364197530864198,
+        "val_cosine_recall@5": 0.7973251028806584
+      },
+      "pre_training": {
+        "val_cosine_accuracy@1": 0.5555555555555556,
+        "val_cosine_accuracy@10": 0.8024691358024691,
+        "val_cosine_accuracy@5": 0.7777777777777778,
+        "val_cosine_map@10": 0.6398393102096807,
+        "val_cosine_mrr@10": 0.653556731334509,
+        "val_cosine_ndcg@10": 0.6816177563260952,
+        "val_cosine_precision@1": 0.5555555555555556,
+        "val_cosine_precision@10": 0.08518518518518517,
+        "val_cosine_precision@5": 0.16296296296296295,
+        "val_cosine_recall@1": 0.5329218106995884,
+        "val_cosine_recall@10": 0.7932098765432098,
+        "val_cosine_recall@5": 0.7633744855967077
+      }
+    },
+    "caveat": "Evaluator metric definitions can differ slightly from src/evaluate.py; Phase 5 re-scores every model with the shared implementation. Negative changes are valid results.",
+    "evaluator": "sentence-transformers InformationRetrievalEvaluator (name=val, cosine)",
+    "pre_training_primary": 0.6816177563260952,
+    "primary_metric": "val_cosine_ndcg@10",
+    "rel_change_primary_pct": 2.3174661579555473
+  }
+}

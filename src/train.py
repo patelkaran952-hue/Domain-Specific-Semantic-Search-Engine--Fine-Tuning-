@@ -9,9 +9,13 @@ from __future__ import annotations
 
 import csv
 import json
+import logging
 import math
+import os
 import threading
 import time
+import traceback
+from datetime import datetime, timezone
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Protocol
@@ -178,16 +182,53 @@ def append_runs_csv(path: Path, run_id: str, stages: dict[str, dict], model_rev:
 
 
 # ------------------------------------------------------------------------------------ main entry
-def run_experiment(cfg: dict, exp_key: str, backend: Backend, smoke: bool = False) -> dict:
+def _attach_file_logging(path: Path) -> list[tuple[logging.Logger, logging.Handler]]:
+    """Tee root + transformers + sentence_transformers logs to <run_dir>/train.log so errors survive the console."""
+    h = logging.FileHandler(path, encoding="utf-8")
+    h.setFormatter(logging.Formatter("%(asctime)s | %(levelname)s | %(name)s | %(message)s"))
+    h.setLevel(logging.INFO)
+    out = []
+    for name in ("", "transformers", "sentence_transformers"):
+        lg = logging.getLogger(name)
+        lg.addHandler(h)
+        out.append((lg, h))
+    return out
+
+
+def _detach_file_logging(handlers) -> None:
+    for lg, h in handlers:
+        lg.removeHandler(h)
+    if handlers:
+        handlers[0][1].close()
+
+
+def prepare_run_dir(run_dir: Path, report_path: Path, archive_incomplete: bool) -> Path | None:
+    """Existing non-empty run dirs are never overwritten. A dir WITHOUT a final report is 'incomplete'; with
+    archive_incomplete=True it is RENAMED (never deleted) to <name>.incomplete-<UTC stamp>. Finished runs are never touched."""
+    if not (run_dir.exists() and any(run_dir.iterdir())):
+        return None
+    if report_path.is_file():
+        raise SystemExit(f"{run_dir} belongs to a FINISHED run (report {report_path.name} exists) and is never overwritten. "
+                         "Move or delete it yourself if you really want to retrain.")
+    if not archive_incomplete:
+        raise SystemExit(f"{run_dir} exists but has no final report, i.e. an earlier attempt did not finish. "
+                         "Inspect it with `python scripts/diagnose_runs.py`, then either move/delete it yourself or re-run with "
+                         "--archive-incomplete to RENAME it (nothing is deleted).")
+    stamp = datetime.now(timezone.utc).strftime("%Y%m%d-%H%M%S")
+    target = run_dir.with_name(f"{run_dir.name}.incomplete-{stamp}")
+    os.replace(run_dir, target)
+    log.warning("Archived incomplete run %s -> %s", run_dir.name, target.name)
+    return target
+
+
+def run_experiment(cfg: dict, exp_key: str, backend: Backend, smoke: bool = False, archive_incomplete: bool = False) -> dict:
     root: Path = cfg["_root"]
     exp, t = validate_training_config(cfg, exp_key), cfg["training"]
     proc, reports = cfg["_abs"]["processed_dir"], cfg["_abs"]["reports_dir"]
     models_dir = (cfg["_abs"]["models_dir"] if not smoke else root / "artifacts" / "smoke" / "finetune")
     out_reports = reports if not smoke else root / "artifacts" / "smoke"
     run_dir = models_dir / exp["run_id"]
-    if run_dir.exists() and any(run_dir.iterdir()):
-        raise SystemExit(f"{run_dir} already exists and is not empty. Existing models are never overwritten: "
-                         "move or delete it yourself if you really want to retrain.")
+    prepare_run_dir(run_dir, out_reports / f"finetune_{exp['run_id']}_report.json", archive_incomplete)
 
     # ---- inputs -------------------------------------------------------------------------------
     from .data_io import read_jsonl, read_qrels
@@ -263,60 +304,74 @@ def run_experiment(cfg: dict, exp_key: str, backend: Backend, smoke: bool = Fals
     write_json({"experiment": exp_key, "experiment_cfg": exp, "training_cfg": t, "trainer_args": args, "steps": steps,
                 "provenance": prov, "data_file": exp["data_file"], "data_sha256": sha256_file(data_path), "n_rows": len(rows),
                 "smoke": smoke}, run_dir / "training_config_resolved.json")
-    t0 = time.perf_counter()
-    with RssMonitor() as mon:
-        res = backend.train(model, data, evaluator, args, run_dir)
-    wall = time.perf_counter() - t0
-    write_json(res.log_history, run_dir / "train_log_history.json")
+    progress = {"stage": "train"}
+    handlers = _attach_file_logging(run_dir / "train.log")
+    try:
+        t0 = time.perf_counter()
+        with RssMonitor() as mon:
+            res = backend.train(model, data, evaluator, args, run_dir)
+        wall = time.perf_counter() - t0
+        write_json(res.log_history, run_dir / "train_log_history.json")
+        progress["stage"] = "save_and_reload_gates"
 
-    # ---- save + reload gates --------------------------------------------------------------------------
-    final = run_dir / "final"
-    backend.save(res.model, final)
-    probe = [doc_text[d] for d in list(doc_text)[:4]]
-    in_mem = backend.encode(res.model, probe)
-    reloaded = backend.load_saved(final)
-    fid = reload_fidelity(in_mem, backend.encode(reloaded, probe), 1e-4)
-    evals = extract_epoch_evals(res.log_history)
-    stages = {"pre_training": (0, pre_metrics), **{f"epoch_{int(e) if float(e).is_integer() else e}": (e, m) for e, m in sorted(evals.items())}}
-    best_stage = max((s for s in stages if s != "pre_training"), key=lambda s: stages[s][1].get(primary, -1), default=None)
-    gates = {**{f"data:{k}": v for k, v in data_gates.items()},
-             "training_logged": bool(res.log_history) and res.global_step > 0,
-             "validation_evaluated_each_epoch": len(evals) >= args["epochs"],
-             "validation_metric_present_every_stage": all(primary in m for _, m in stages.values()),
-             "model_saved": (final / "modules.json").is_file(),
-             "reloaded_model_embeds_finite_correct_shape": fid["shapes_match"] and fid["all_finite"],
-             "reloaded_equals_in_memory": fid["within_tol"],
-             "max_seq_length_preserved": backend.max_seq_length(reloaded) == t["max_seq_length"],
-             "embedding_dim_preserved": int(backend.encode(reloaded, probe[:1]).shape[1]) == int(prov["embedding_dim"]),
-             "test_split_untouched_by_construction": True}
-    weights = next((p for p in (final / "model.safetensors", final / "0_Transformer" / "model.safetensors") if p.exists()), None)
-    pre_v, best_v = pre_metrics.get(primary), (stages[best_stage][1].get(primary) if best_stage else None)
-    report = {
-        "run_id": exp["run_id"], "experiment": exp_key, "status": "PASS" if all(gates.values()) else "FAIL",
-        "smoke": smoke, "generated_utc": utc_now(), "seed": t["seed"], "gates": gates, "reload_check": fid,
-        "uses_mined_negatives": exp["uses_mined_negatives"], "columns": exp["columns"],
-        "data": {"file": exp["data_file"], "sha256": sha256_file(data_path), "n_rows": len(rows)},
-        "hyperparameters": {**{k: t[k] for k in ("epochs", "batch_size", "learning_rate", "warmup_ratio", "weight_decay",
-                                                 "max_seq_length", "batch_sampler", "loss")}, **steps},
-        "base_model": prov, "library_versions": backend.versions(),
-        "validation": {"evaluator": "sentence-transformers InformationRetrievalEvaluator (name=val, cosine)",
-                       "primary_metric": primary, "by_stage": {s: m for s, (_, m) in stages.items()},
-                       "best_stage": best_stage, "pre_training_primary": pre_v, "best_primary": best_v,
-                       "abs_change_primary": None if None in (pre_v, best_v) else best_v - pre_v,
-                       "rel_change_primary_pct": None if not pre_v or best_v is None else 100.0 * (best_v - pre_v) / pre_v,
-                       "caveat": "Evaluator metric definitions can differ slightly from src/evaluate.py; Phase 5 re-scores every "
-                                 "model with the shared implementation. Negative changes are valid results."},
-        "timing_s": {"train_wall": round(wall, 1), "trainer_reported_train_runtime": res.train_runtime_s,
-                     "global_step": res.global_step},
-        "memory_mb": {"peak_rss_observed": round(mon.peak_mb, 1), "note": "sampled every 2s; not a precise profile"},
-        "model_dir": str(final.relative_to(root)) if final.is_relative_to(root) else str(final),
-        "model_weights_sha256": sha256_file(weights) if weights else None,
-        "best_checkpoint": res.best_checkpoint,
-        "caveats": ["Mined negatives (if used) are unjudged and may include false negatives.",
-                    "Validation drives best-epoch selection within a run; test.tsv was not used."],
-    }
-    write_json(report, out_reports / f"finetune_{exp['run_id']}_report.json")
-    write_json({s: {"epoch": e, "metrics": m} for s, (e, m) in stages.items()}, run_dir / "val_metrics_by_epoch.json")
-    if not smoke:
-        append_runs_csv(root / "experiments" / "finetune_runs.csv", exp["run_id"], stages, prov["resolved_revision"])
-    return report
+        # ---- save + reload gates --------------------------------------------------------------------------
+        final = run_dir / "final"
+        backend.save(res.model, final)
+        probe = [doc_text[d] for d in list(doc_text)[:4]]
+        in_mem = backend.encode(res.model, probe)
+        reloaded = backend.load_saved(final)
+        fid = reload_fidelity(in_mem, backend.encode(reloaded, probe), 1e-4)
+        evals = extract_epoch_evals(res.log_history)
+        stages = {"pre_training": (0, pre_metrics), **{f"epoch_{int(e) if float(e).is_integer() else e}": (e, m) for e, m in sorted(evals.items())}}
+        best_stage = max((s for s in stages if s != "pre_training"), key=lambda s: stages[s][1].get(primary, -1), default=None)
+        gates = {**{f"data:{k}": v for k, v in data_gates.items()},
+                 "training_logged": bool(res.log_history) and res.global_step > 0,
+                 "validation_evaluated_each_epoch": len(evals) >= args["epochs"],
+                 "validation_metric_present_every_stage": all(primary in m for _, m in stages.values()),
+                 "model_saved": (final / "modules.json").is_file(),
+                 "reloaded_model_embeds_finite_correct_shape": fid["shapes_match"] and fid["all_finite"],
+                 "reloaded_equals_in_memory": fid["within_tol"],
+                 "max_seq_length_preserved": backend.max_seq_length(reloaded) == t["max_seq_length"],
+                 "embedding_dim_preserved": int(backend.encode(reloaded, probe[:1]).shape[1]) == int(prov["embedding_dim"]),
+                 "test_split_untouched_by_construction": True}
+        progress["stage"] = "write_report"
+        weights = next((p for p in (final / "model.safetensors", final / "0_Transformer" / "model.safetensors") if p.exists()), None)
+        pre_v, best_v = pre_metrics.get(primary), (stages[best_stage][1].get(primary) if best_stage else None)
+        report = {
+            "run_id": exp["run_id"], "experiment": exp_key, "status": "PASS" if all(gates.values()) else "FAIL",
+            "smoke": smoke, "generated_utc": utc_now(), "seed": t["seed"], "gates": gates, "reload_check": fid,
+            "uses_mined_negatives": exp["uses_mined_negatives"], "columns": exp["columns"],
+            "data": {"file": exp["data_file"], "sha256": sha256_file(data_path), "n_rows": len(rows)},
+            "hyperparameters": {**{k: t[k] for k in ("epochs", "batch_size", "learning_rate", "warmup_ratio", "weight_decay",
+                                                     "max_seq_length", "batch_sampler", "loss")}, **steps},
+            "base_model": prov, "library_versions": backend.versions(),
+            "validation": {"evaluator": "sentence-transformers InformationRetrievalEvaluator (name=val, cosine)",
+                           "primary_metric": primary, "by_stage": {s: m for s, (_, m) in stages.items()},
+                           "best_stage": best_stage, "pre_training_primary": pre_v, "best_primary": best_v,
+                           "abs_change_primary": None if None in (pre_v, best_v) else best_v - pre_v,
+                           "rel_change_primary_pct": None if not pre_v or best_v is None else 100.0 * (best_v - pre_v) / pre_v,
+                           "caveat": "Evaluator metric definitions can differ slightly from src/evaluate.py; Phase 5 re-scores every "
+                                     "model with the shared implementation. Negative changes are valid results."},
+            "timing_s": {"train_wall": round(wall, 1), "trainer_reported_train_runtime": res.train_runtime_s,
+                         "global_step": res.global_step},
+            "memory_mb": {"peak_rss_observed": round(mon.peak_mb, 1), "note": "sampled every 2s; not a precise profile"},
+            "model_dir": str(final.relative_to(root)) if final.is_relative_to(root) else str(final),
+            "model_weights_sha256": sha256_file(weights) if weights else None,
+            "best_checkpoint": res.best_checkpoint,
+            "caveats": ["Mined negatives (if used) are unjudged and may include false negatives.",
+                        "Validation drives best-epoch selection within a run; test.tsv was not used."],
+        }
+        write_json(report, out_reports / f"finetune_{exp['run_id']}_report.json")
+        write_json({s: {"epoch": e, "metrics": m} for s, (e, m) in stages.items()}, run_dir / "val_metrics_by_epoch.json")
+        if not smoke:
+            append_runs_csv(root / "experiments" / "finetune_runs.csv", exp["run_id"], stages, prov["resolved_revision"])
+        return report
+    except BaseException as exc:                    # record WHY, then re-raise (never swallow)
+        (run_dir / "run_failed.json").write_text(json.dumps({
+            "failed_utc": utc_now(), "stage": progress["stage"], "exception_type": type(exc).__name__,
+            "message": str(exc), "traceback": traceback.format_exc()}, indent=2), encoding="utf-8")
+        log.error("Run failed during stage %r: %s: %s (details in %s)", progress["stage"], type(exc).__name__, exc,
+                  run_dir / "run_failed.json")
+        raise
+    finally:
+        _detach_file_logging(handlers)

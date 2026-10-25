@@ -23,11 +23,14 @@ def main() -> int:
     ap.add_argument("--experiment", required=True, choices=["positive_only", "hard_negative"])
     ap.add_argument("--config", nargs="+", default=["configs/baseline.yaml", "configs/finetune.yaml"])
     ap.add_argument("--smoke", action="store_true")
+    ap.add_argument("--archive-incomplete", action="store_true",
+                    help="if an earlier attempt left an unfinished run directory, RENAME it (never deletes) and start fresh")
     a = ap.parse_args()
     cfg = load_config(a.config)
     from src.train_backend import SentenceTransformersBackend
 
-    report = run_experiment(cfg, a.experiment, SentenceTransformersBackend(), smoke=a.smoke)
+    report = run_experiment(cfg, a.experiment, SentenceTransformersBackend(), smoke=a.smoke,
+                            archive_incomplete=a.archive_incomplete)
     v = report["validation"]
     print(f"\n=== {report['run_id']} ({'SMOKE ' if report['smoke'] else ''}{report['status']}) ===")
     for stage, m in v["by_stage"].items():

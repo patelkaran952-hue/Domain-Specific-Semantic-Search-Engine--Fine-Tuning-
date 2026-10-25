@@ -196,3 +196,54 @@ def test_build_training_columns_maps_ids_to_text():
     cols = build_training_columns([{"query_id": "q", "positive_id": "p", "negative_id": "n"}], ["anchor", "positive", "negative"],
                                   {"q": "QTEXT"}, {"p": "PTEXT", "n": "NTEXT"})
     assert cols == {"anchor": ["QTEXT"], "positive": ["PTEXT"], "negative": ["NTEXT"]}
+
+
+# ---- failure recording / incomplete-run handling ------------------------------------------------------------------
+class ExplodingBackend(FakeBackend):
+    def train(self, *a, **k):
+        raise RuntimeError("boom: simulated trainer failure")
+
+
+def test_failure_is_recorded_with_traceback_and_log(tmp_path):
+    cfg = make_project(tmp_path)
+    with pytest.raises(RuntimeError, match="boom"):
+        run_experiment(cfg, "positive_only", ExplodingBackend())
+    run = tmp_path / "artifacts" / "models" / "r_pos"
+    d = json.loads((run / "run_failed.json").read_text())
+    assert d["stage"] == "train" and d["exception_type"] == "RuntimeError" and "boom" in d["traceback"]
+    assert (run / "train.log").is_file()
+    assert not (tmp_path / "artifacts/reports/finetune_r_pos_report.json").exists()
+
+
+def test_incomplete_run_blocks_rerun_unless_archived_then_is_renamed_not_deleted(tmp_path):
+    cfg = make_project(tmp_path)
+    with pytest.raises(RuntimeError):
+        run_experiment(cfg, "positive_only", ExplodingBackend())
+    with pytest.raises(SystemExit, match="did not finish"):
+        run_experiment(cfg, "positive_only", FakeBackend())
+    rep = run_experiment(cfg, "positive_only", FakeBackend(), archive_incomplete=True)
+    assert rep["status"] == "PASS"
+    archived = list((tmp_path / "artifacts" / "models").glob("r_pos.incomplete-*"))
+    assert len(archived) == 1 and (archived[0] / "run_failed.json").is_file()      # evidence preserved
+
+
+def test_finished_run_is_never_archived_even_with_flag(tmp_path):
+    cfg = make_project(tmp_path)
+    run_experiment(cfg, "positive_only", FakeBackend())
+    with pytest.raises(SystemExit, match="FINISHED"):
+        run_experiment(cfg, "positive_only", FakeBackend(), archive_incomplete=True)
+
+
+def test_diagnose_describes_failed_and_finished_runs(tmp_path):
+    from src.diagnose import describe_pretrained_cache, describe_run
+    cfg = make_project(tmp_path)
+    with pytest.raises(RuntimeError):
+        run_experiment(cfg, "positive_only", ExplodingBackend())
+    run_experiment(cfg, "hard_negative", FakeBackend())
+    models, reports = tmp_path / "artifacts/models", tmp_path / "artifacts/reports"
+    bad = "\n".join(describe_run(models / "r_pos", reports / "finetune_r_pos_report.json"))
+    good = "\n".join(describe_run(models / "r_hn", reports / "finetune_r_hn_report.json"))
+    assert "MISSING" in bad and "boom" in bad and "ABSENT" in bad
+    assert "FOUND" in good and "evaluation entries" in good
+    assert "PRETRAINED" in "\n".join(describe_pretrained_cache(reports / "finetune_pretrained_val_evaluator.json"))
+    assert describe_run(tmp_path / "nope", tmp_path / "x")[-1].strip() == "(does not exist)"
