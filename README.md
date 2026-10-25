@@ -78,6 +78,18 @@ Each run saves `artifacts/models/<run_id>/final` (best epoch on validation), `tr
 `train_log_history.json`, `val_metrics_by_epoch.json`, and `artifacts/reports/finetune_<run_id>_report.json`.
 Existing model directories are never overwritten. `test.tsv` is not read.
 
+## Phase 5 commands (comparison, validation-only selection, one held-out test evaluation)
+```powershell
+python scripts/evaluate_models.py --stage validation
+python scripts/evaluate_models.py --stage test --confirm-single-test-evaluation   # ONE shot per frozen model
+python scripts/build_notebook_phase05.py --execute
+```
+All three models (pretrained, `ft_pos_only`, `ft_hardneg_dense`) are scored with the same code (`src/evaluate.py`), corpus (5,183 docs),
+queries and top-100 depth. The validation stage selects ONE model with a pre-registered rule (highest validation nDCG@10, ties -> simplest),
+reports paired bootstrap CIs, and writes `artifacts/reports/model_selection.json` (weights hashes + config fingerprint). The test stage
+refuses to run unless that freeze is intact, evaluates only the frozen model and the baseline, and records the evaluation in
+`test_evaluation_ledger.json`; after that, validation/selection can no longer be re-run (that would be test-guided iteration).
+
 ## Data design (summary)
 - 5,183 documents, 1,109 queries; official `train.tsv` (919 positives / 809 queries), `test.tsv` (339 / 300).
 - Validation = seeded (42) query-level 80/20 split of the official training queries → 647 train / 162 val queries.

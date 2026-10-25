@@ -56,6 +56,35 @@ def load_sentence_model(name: str, revision: str | None, max_seq_length: int, de
     return model, prov
 
 
+def load_local_model(model_dir: Path, max_seq_length: int, run_id: str, device: str = "cpu"):
+    """Load a fine-tuned Sentence-Transformers directory; provenance carries the weights SHA-256 so embedding
+    caches are bound to the exact weights. Refuses a model whose saved max_seq_length differs from the config."""
+    try:
+        import sentence_transformers
+        import torch
+        import transformers
+        from sentence_transformers import SentenceTransformer
+    except ImportError as exc:
+        raise RuntimeError(f"Missing dependency ({exc.name}). Install with: python -m pip install -r requirements.txt") from exc
+    model_dir = Path(model_dir)
+    weights = next((p for p in (model_dir / "model.safetensors", model_dir / "0_Transformer" / "model.safetensors",
+                                model_dir / "pytorch_model.bin") if p.exists()), None)
+    if weights is None or not (model_dir / "modules.json").is_file():
+        raise FileNotFoundError(f"{model_dir} is not a saved Sentence-Transformers model (no modules.json / weights). "
+                                "Run scripts/finetune.py (Phase 4) first.")
+    model = SentenceTransformer(str(model_dir), device=device)
+    if int(model.max_seq_length) != int(max_seq_length):
+        raise RuntimeError(f"{model_dir}: saved max_seq_length {model.max_seq_length} != configured {max_seq_length}; "
+                           "embeddings would not be comparable with the baseline.")
+    wsha = sha256_file(weights)
+    prov = {"model_name": f"local:{run_id}", "requested_revision": None, "resolved_revision": f"local-{wsha[:16]}",
+            "weights_file": str(weights.relative_to(model_dir)), "weights_sha256": wsha, "max_seq_length": int(max_seq_length),
+            "embedding_dim": model.get_sentence_embedding_dimension(), "device": device,
+            "versions": {"torch": torch.__version__, "sentence_transformers": sentence_transformers.__version__,
+                         "transformers": transformers.__version__}}
+    return model, prov
+
+
 def encode_texts(encode_fn: Callable[[list[str]], np.ndarray], texts: list[str], chunk_size: int = 256,
                  normalize: bool = True) -> np.ndarray:
     """Encode in chunks (bounded memory), return float32 (n, dim), optionally L2-normalized."""

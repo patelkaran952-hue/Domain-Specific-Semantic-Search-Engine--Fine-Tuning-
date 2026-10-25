@@ -114,12 +114,9 @@ def main() -> int:
     # inventory (complete project, not just this phase) ------------------------------------
     inv = build_inventory(root)
     prev_path = ck_root / "manifest.json"
-    prev_inv = None
-    if prev_path.is_file():
-        prev = read_json(prev_path)
-        pi = ck_root / f"phase_{prev['latest_phase']:02d}" / "inventory.json"
-        if pi.is_file() and prev["latest_phase"] != a.phase:
-            prev_inv = read_json(pi)["files"]
+    earlier = sorted((int(d.name.split("_")[1]) for d in ck_root.glob("phase_*") if (d / "inventory.json").is_file()
+                      and d.name.split("_")[1].isdigit() and int(d.name.split("_")[1]) < a.phase), reverse=True)
+    prev_inv = read_json(ck_root / f"phase_{earlier[0]:02d}" / "inventory.json")["files"] if earlier else None
     change = diff_inventory(prev_inv, inv)
     write_json({"generated_utc": utc_now(), "phase": a.phase, "n_files": len(inv), "files": inv}, ck / "inventory.json")
 
