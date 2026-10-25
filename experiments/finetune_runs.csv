@@ -2,3 +2,6 @@ timestamp_utc,run_id,stage,epoch,evaluator,ndcg@10,mrr@10,map@10,recall@1,recall
 2026-10-25T09:20:27+00:00,ft_pos_only,pre_training,0,sentence-transformers InformationRetrievalEvaluator,0.681618,0.653557,0.639839,0.532922,0.763374,0.793210,0.085185,0.555556,0.777778,0.802469
 2026-10-25T09:20:27+00:00,ft_pos_only,epoch_1,1.0,sentence-transformers InformationRetrievalEvaluator,0.691020,0.648636,0.640131,0.517490,0.775720,0.836420,0.090123,0.537037,0.783951,0.839506
 2026-10-25T09:20:27+00:00,ft_pos_only,epoch_2,2.0,sentence-transformers InformationRetrievalEvaluator,0.697414,0.658368,0.648148,0.536008,0.797325,0.836420,0.090123,0.555556,0.808642,0.839506
+2026-10-25T10:19:45+00:00,ft_hardneg_dense,pre_training,0,sentence-transformers InformationRetrievalEvaluator,0.681618,0.653557,0.639839,0.532922,0.763374,0.793210,0.085185,0.555556,0.777778,0.802469
+2026-10-25T10:19:45+00:00,ft_hardneg_dense,epoch_1,1.0,sentence-transformers InformationRetrievalEvaluator,0.722877,0.691544,0.683811,0.581276,0.796296,0.833333,0.090123,0.604938,0.802469,0.839506
+2026-10-25T10:19:45+00:00,ft_hardneg_dense,epoch_2,2.0,sentence-transformers InformationRetrievalEvaluator,0.743264,0.717411,0.710987,0.618313,0.811728,0.832305,0.090123,0.641975,0.814815,0.845679

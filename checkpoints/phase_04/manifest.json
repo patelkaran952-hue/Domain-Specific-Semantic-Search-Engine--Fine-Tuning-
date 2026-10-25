@@ -1,6 +1,6 @@
 {
   "changes_since_previous_checkpoint": {
-    "added": 127,
+    "added": 141,
     "changed": 0,
     "removed": 0,
     "unchanged": 0
@@ -13,7 +13,7 @@
     "pyyaml": "6.0.3",
     "scikit_learn": "1.8.0"
   },
-  "git_tag": "phase-04-partial",
+  "git_tag": "phase-04-complete",
   "key_hashes": {
     "data/processed/corpus_processed.jsonl": "3b603fece11381ca339457929cd0c6c9e20ac08c08c2c7ab3494967bb53ee96f",
     "data/processed/document_ids.json": "f6eb3209cfb3da78c36e596f64600adc6af0cc2cfa93712a0c8e8dfb3108855d",
@@ -33,7 +33,7 @@
   "phase": 4,
   "quality_gates": {
     "data_audit": "PASS",
-    "finetune_verification": "PARTIAL",
+    "finetune_verification": "PASS",
     "pytest": "PASS",
     "smoke_test": "PASS"
   },
@@ -52,6 +52,6 @@
     "notebooks/03_negative_mining.ipynb": "python scripts/build_notebook_phase03.py --execute"
   },
   "seed": 42,
-  "status": "PARTIAL",
-  "timestamp_utc": "2026-10-25T09:48:19+00:00"
+  "status": "PASS",
+  "timestamp_utc": "2026-10-25T10:30:13+00:00"
 }

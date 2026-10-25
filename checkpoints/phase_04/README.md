@@ -1,6 +1,6 @@
 # Phase 04 checkpoint — MiniLM fine-tuning
 
-**Status: PARTIAL** | generated 2026-10-25T09:48:19+00:00
+**Status: PASS** | generated 2026-10-25T10:30:13+00:00
 
 ## Quality gates (real executions)
 | Gate | Result |
@@ -8,10 +8,10 @@
 | pytest | PASS |
 | smoke_test.py | PASS |
 | data audit | PASS |
-| finetune_verification | PARTIAL |
+| finetune_verification | PASS |
 
 ## File changes vs previous checkpoint
-{'added': 127, 'changed': 0, 'unchanged': 0, 'removed': 0}
+{'added': 141, 'changed': 0, 'unchanged': 0, 'removed': 0}
 
 ## Resume / reproduce (Windows PowerShell, repo root)
 ```powershell

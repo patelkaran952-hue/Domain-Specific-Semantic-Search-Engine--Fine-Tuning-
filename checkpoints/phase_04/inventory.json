@@ -41,9 +41,59 @@
       "size_bytes": 944
     },
     {
+      "path": "artifacts/models/ft_hardneg_dense/final/1_Pooling/config.json",
+      "sha256": "bb80272f7adad76ce93073c25e18113ee66be1e91f60bcdd72aa41d05b28247e",
+      "size_bytes": 94
+    },
+    {
+      "path": "artifacts/models/ft_hardneg_dense/final/config.json",
+      "sha256": "d3b88be3af77b30eed34efd38bf5e5d3dd3505a88f87d1970225cbfb64038dbc",
+      "size_bytes": 776
+    },
+    {
+      "path": "artifacts/models/ft_hardneg_dense/final/config_sentence_transformers.json",
+      "sha256": "9fc71de18187394136cb3438b4d7f4950425237f57a6229a090315b93b898fe5",
+      "size_bytes": 295
+    },
+    {
+      "path": "artifacts/models/ft_hardneg_dense/final/model.safetensors",
+      "sha256": "405b247000543b91781bc114afdecbfe7e1e3133f6dae62d352717a949efc051",
+      "size_bytes": 90864192
+    },
+    {
+      "path": "artifacts/models/ft_hardneg_dense/final/modules.json",
+      "sha256": "5286260f53f0f5d318eb02f1565fd30f7ec7c6d305f41ad29e2bb3ec974046a6",
+      "size_bytes": 448
+    },
+    {
+      "path": "artifacts/models/ft_hardneg_dense/final/README.md",
+      "sha256": "82dfffb43c82d65f134ae8daf11a76a3d57abc65f7c6c1c4f3778f9c1a97b425",
+      "size_bytes": 61972
+    },
+    {
+      "path": "artifacts/models/ft_hardneg_dense/final/sentence_bert_config.json",
+      "sha256": "5fee3fcdc4a727fad422f0fed0c867b0921eefa9051de221521956ed42eb4c19",
+      "size_bytes": 250
+    },
+    {
+      "path": "artifacts/models/ft_hardneg_dense/final/tokenizer.json",
+      "sha256": "851ca67100d372ca3ae031a6abd168f53489eebfd7d89523f35c5c9b4d372c3c",
+      "size_bytes": 711649
+    },
+    {
+      "path": "artifacts/models/ft_hardneg_dense/final/tokenizer_config.json",
+      "sha256": "30d8f02acb71d4c45410174bf83f9150823633a045c8b60eff40cb105b29fb76",
+      "size_bytes": 617
+    },
+    {
       "path": "artifacts/models/ft_hardneg_dense/train.log",
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "size_bytes": 0
+    },
+    {
+      "path": "artifacts/models/ft_hardneg_dense/train_log_history.json",
+      "sha256": "774a85ef475807ad2f956f9a7baf318db0dce9774618bfede1e05d545aa52695",
+      "size_bytes": 4821
     },
     {
       "path": "artifacts/models/ft_hardneg_dense/training_config_resolved.json",
@@ -51,7 +101,22 @@
       "size_bytes": 1991
     },
     {
+      "path": "artifacts/models/ft_hardneg_dense/val_metrics_by_epoch.json",
+      "sha256": "f59dae56ebd02778f6027daf1e438ba45124324433453879a81844d00365e496",
+      "size_bytes": 1989
+    },
+    {
       "path": "artifacts/models/ft_hardneg_dense.incomplete-20261025-092855/training_config_resolved.json",
+      "sha256": "92f1abcc18e8ed46ba10a6a18f96f7591fdfed2e23e2c89745ae365114107e78",
+      "size_bytes": 1991
+    },
+    {
+      "path": "artifacts/models/ft_hardneg_dense.incomplete-20261025-095557/train.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "artifacts/models/ft_hardneg_dense.incomplete-20261025-095557/training_config_resolved.json",
       "sha256": "92f1abcc18e8ed46ba10a6a18f96f7591fdfed2e23e2c89745ae365114107e78",
       "size_bytes": 1991
     },
@@ -151,6 +216,11 @@
       "size_bytes": 33986
     },
     {
+      "path": "artifacts/reports/finetune_ft_hardneg_dense_report.json",
+      "sha256": "66e929f9dde7227eac536b4ecdd1a913f6dfc889788df1b1b3ad61acc47813ff",
+      "size_bytes": 5489
+    },
+    {
       "path": "artifacts/reports/finetune_ft_pos_only_report.json",
       "sha256": "eb433d6a025e20310b0586726cfeddca0d808977875d609726f4609460aded18",
       "size_bytes": 5464
@@ -162,8 +232,8 @@
     },
     {
       "path": "artifacts/reports/finetune_verification.json",
-      "sha256": "ec98c855f18568c4da7a3a9872c39ddfbbc09928cc886147d6fe72e7a439ef94",
-      "size_bytes": 695
+      "sha256": "2b01cd91fba17949771401d63321b3c5d9f5cc52c684161d813e574a7b39df9f",
+      "size_bytes": 1298
     },
     {
       "path": "artifacts/reports/negative_mining_bm25_report.json",
@@ -397,8 +467,8 @@
     },
     {
       "path": "experiments/finetune_runs.csv",
-      "sha256": "51c05a3dfe50b096554a3d82f11fcf97e643e0e513514e0203f281a1212214ad",
-      "size_bytes": 723
+      "sha256": "39b647f11a09c2bce4b157600ace07515ecfa76362ab0347d5613726a67a719c",
+      "size_bytes": 1320
     },
     {
       "path": "experiments/runs.csv",
@@ -422,8 +492,8 @@
     },
     {
       "path": "notebooks/04_finetuning.ipynb",
-      "sha256": "13ec422c72f9d1656e9e03304d0641cbf287af682ba2126298fd4478715b4e2c",
-      "size_bytes": 105783
+      "sha256": "292e18aedf4f215dbb85bad7652b4f2defc6f23b50ce3ecad54fc2b92e927d2c",
+      "size_bytes": 108228
     },
     {
       "path": "README.md",
@@ -636,7 +706,7 @@
       "size_bytes": 13250
     }
   ],
-  "generated_utc": "2026-10-25T09:48:15+00:00",
-  "n_files": 127,
+  "generated_utc": "2026-10-25T10:30:12+00:00",
+  "n_files": 141,
   "phase": 4
 }
