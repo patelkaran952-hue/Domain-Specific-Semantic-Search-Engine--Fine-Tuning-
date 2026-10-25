@@ -1,0 +1,40 @@
+{
+  "checks": {
+    "hard_negative:model_dir_exists": true,
+    "hard_negative:status_PASS": true,
+    "only_hard_negative_run_uses_negatives": true,
+    "positive_only:model_dir_exists": true,
+    "positive_only:status_PASS": true,
+    "same_base_model_revision_and_weights": true,
+    "same_hyperparameters": true,
+    "same_library_versions": true,
+    "same_pair_count": true,
+    "same_seed": true
+  },
+  "generated_utc": "2026-10-25T10:27:51+00:00",
+  "missing_runs": [],
+  "note": "Evaluator-based validation numbers; Phase 5 re-scores all models with src/evaluate.py and selects ONE on validation.",
+  "status": "PASS",
+  "summary": {
+    "hard_negative": {
+      "abs_change": 0.06164589170725776,
+      "best": 0.743263648033353,
+      "best_stage": "epoch_2",
+      "peak_rss_mb": 2254.2,
+      "pre_training": 0.6816177563260952,
+      "primary_metric": "val_cosine_ndcg@10",
+      "rel_change_pct": 9.044056017485191,
+      "train_wall_s": 1271.8
+    },
+    "positive_only": {
+      "abs_change": 0.015796260829473163,
+      "best": 0.6974140171555684,
+      "best_stage": "epoch_2",
+      "peak_rss_mb": 1608.9,
+      "pre_training": 0.6816177563260952,
+      "primary_metric": "val_cosine_ndcg@10",
+      "rel_change_pct": 2.3174661579555473,
+      "train_wall_s": 974.2
+    }
+  }
+}

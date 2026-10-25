@@ -1,0 +1,128 @@
+{
+  "candidates": {
+    "baseline": {
+      "embeddings_sha256": "3feadf339a3a1e1e093d8f77f74860bcb7d904833573d405a3152b8d5ddda0d3",
+      "index_sha256": "15bdc70107a95bf910941239398436d25b7741337c515e85d159c76e26b0ee9e",
+      "model_dir": null,
+      "validation_metrics": {
+        "map@10": 0.6398393102096807,
+        "mrr@10": 0.6535567313345091,
+        "ndcg@10": 0.6816177563260951,
+        "precision@10": 0.08518518518518518,
+        "recall@1": 0.5329218106995884,
+        "recall@10": 0.7932098765432098,
+        "recall@5": 0.7633744855967078
+      },
+      "weights_sha256": "53aa51172d142c89d9012cce15ae4d6cc0ca6895895114379cacb4fab128d9db"
+    },
+    "ft_hardneg_dense": {
+      "embeddings_sha256": "9f8a173c943a31085a8d6a63c43adf181d9375f4f432746207c8d384a81f43ab",
+      "index_sha256": "97fa0483c7d0b4ea749c9a6f6bc4bfe2e154c5962345a8569b2b23d30f22717e",
+      "model_dir": "artifacts/models/ft_hardneg_dense/final",
+      "validation_metrics": {
+        "map@10": 0.7109870011104579,
+        "mrr@10": 0.7174113266705859,
+        "ndcg@10": 0.743263648033353,
+        "precision@10": 0.09012345679012347,
+        "recall@1": 0.6183127572016461,
+        "recall@10": 0.8323045267489713,
+        "recall@5": 0.8117283950617284
+      },
+      "weights_sha256": "405b247000543b91781bc114afdecbfe7e1e3133f6dae62d352717a949efc051"
+    },
+    "ft_pos_only": {
+      "embeddings_sha256": "ba85aa0c2af7a89b63d716bd543d6dc34a58130a4d358f3d74b50eab4ad68139",
+      "index_sha256": "9e48aeb77ea6174fd33857248ab499e4e3f37fd6c8cfe2a833f041693e069401",
+      "model_dir": "artifacts/models/ft_pos_only/final",
+      "validation_metrics": {
+        "map@10": 0.6481481481481481,
+        "mrr@10": 0.6583676268861454,
+        "ndcg@10": 0.6974140171555684,
+        "precision@10": 0.09012345679012347,
+        "recall@1": 0.5360082304526749,
+        "recall@10": 0.8364197530864198,
+        "recall@5": 0.7973251028806584
+      },
+      "weights_sha256": "981fbdeb06013fd846c95fca13201a4d3dd998f742e66d29b86c7289d8e92153"
+    }
+  },
+  "fingerprint": "d8e886cb5d080d5f34aba4111ca73d4546160191666e4cfb5fa9893e949ad0db",
+  "fingerprint_inputs": {
+    "bootstrap": {
+      "confidence": 0.95,
+      "metrics": [
+        "ndcg@10",
+        "recall@10",
+        "mrr@10",
+        "recall@1"
+      ],
+      "n_resamples": 10000,
+      "seed": 42
+    },
+    "corpus_sha256": "3b603fece11381ca339457929cd0c6c9e20ac08c08c2c7ab3494967bb53ee96f",
+    "embedding": {
+      "batch_size": 8,
+      "dtype": "float32",
+      "normalize": true
+    },
+    "evaluation": {
+      "ks": [
+        1,
+        5,
+        10
+      ],
+      "map_k": 10,
+      "mrr_k": 10,
+      "ndcg_k": 10,
+      "precision_k": 10
+    },
+    "index": "IndexFlatIP",
+    "max_seq_length": 256,
+    "seed": 42,
+    "selected": "ft_hardneg_dense",
+    "selection": {
+      "metric": "ndcg@10",
+      "rule": "argmax_point_estimate",
+      "split": "val",
+      "tie_break_order": [
+        "baseline",
+        "ft_pos_only",
+        "ft_hardneg_dense"
+      ]
+    },
+    "top_k": 100,
+    "val_qrels_sha256": "507a1524e3fd24cae4faae4addc5bf76f6ffadc24c2d6d9ce34ec7271defd0d2",
+    "weights_sha256": {
+      "baseline": "53aa51172d142c89d9012cce15ae4d6cc0ca6895895114379cacb4fab128d9db",
+      "ft_hardneg_dense": "405b247000543b91781bc114afdecbfe7e1e3133f6dae62d352717a949efc051",
+      "ft_pos_only": "981fbdeb06013fd846c95fca13201a4d3dd998f742e66d29b86c7289d8e92153"
+    }
+  },
+  "frozen_utc": "2026-10-25T19:16:32+00:00",
+  "protocol": [
+    "Selection was made on validation only, by the rule above, before test.tsv was read.",
+    "Only test_candidates are evaluated on test, once each (ledger).",
+    "Any change to weights, configs or inputs invalidates the fingerprint and blocks the test stage."
+  ],
+  "rule": {
+    "metric": "ndcg@10",
+    "rule": "argmax_point_estimate",
+    "split": "val",
+    "tie_break_order": [
+      "baseline",
+      "ft_pos_only",
+      "ft_hardneg_dense"
+    ]
+  },
+  "selected": "ft_hardneg_dense",
+  "selection_scores": {
+    "baseline": 0.6816177563260951,
+    "ft_hardneg_dense": 0.743263648033353,
+    "ft_pos_only": 0.6974140171555684
+  },
+  "status": "FROZEN",
+  "test_candidates": [
+    "ft_hardneg_dense",
+    "baseline"
+  ]
+}

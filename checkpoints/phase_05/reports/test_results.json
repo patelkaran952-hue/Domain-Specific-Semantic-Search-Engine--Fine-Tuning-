@@ -1,0 +1,295 @@
+{
+  "caveats": [
+    "One test evaluation per frozen model (ledger). No tuning or selection followed it.",
+    "Validation-to-test differences reflect different query sets and noise, not only generalization.",
+    "SciFact is a shared-corpus benchmark and qrels are sparse; metrics are relative to known positives."
+  ],
+  "eval_setup": {
+    "candidate_corpus_size": 5183,
+    "metric_definitions": {
+      "map@k": "sum_{r<=k} P@r*rel_r / min(R,k)",
+      "mrr@k": "reciprocal rank of first positive within top k, else 0",
+      "ndcg@k": "binary-gain DCG with log2(rank+1) discount / ideal DCG with min(R,k) hits",
+      "precision@k": "|positives in top k| / k",
+      "recall@k": "|positives in top k| / R, averaged over queries"
+    },
+    "n_judgments": 339,
+    "n_queries": 300,
+    "note": "Metrics compare against sparse known positives, not exhaustive relevance. Shared corpus across splits.",
+    "retrieval_top_k": 100,
+    "same_metric_implementation": "src/evaluate.py",
+    "split": "test (held-out)"
+  },
+  "freeze_fingerprint": "d8e886cb5d080d5f34aba4111ca73d4546160191666e4cfb5fa9893e949ad0db",
+  "gates": {
+    "baseline:all_queries_evaluated": true,
+    "baseline:doc_index_mapping_consistent": true,
+    "baseline:ip_equals_cosine": true,
+    "baseline:metrics_reproduced_on_rerun": true,
+    "baseline:reencode_reproduces_cache": true,
+    "baseline:reloaded_index_equals_in_memory_results": true,
+    "baseline:scores_sorted_descending": true,
+    "fingerprint_matches_freeze": true,
+    "ft_hardneg_dense:all_queries_evaluated": true,
+    "ft_hardneg_dense:doc_index_mapping_consistent": true,
+    "ft_hardneg_dense:ip_equals_cosine": true,
+    "ft_hardneg_dense:metrics_reproduced_on_rerun": true,
+    "ft_hardneg_dense:reencode_reproduces_cache": true,
+    "ft_hardneg_dense:reloaded_index_equals_in_memory_results": true,
+    "ft_hardneg_dense:scores_sorted_descending": true,
+    "ledger_unused_for_these_models": true,
+    "raw_test_file_matches_phase1_audit": true,
+    "same_corpus_size_as_validation": true,
+    "selection_frozen_and_validation_PASS": true,
+    "test_disjoint_from_train_and_val": true,
+    "test_qrels_queries_equal_test_ids": true
+  },
+  "generated_utc": "2026-10-25T19:25:39+00:00",
+  "models": {
+    "baseline": {
+      "best_positive_rank_buckets": {
+        "not in top 100": 22,
+        "rank 1": 151,
+        "rank 11-100": 40,
+        "rank 2-10": 87
+      },
+      "check_numbers": {
+        "ip_vs_numpy_max_abs_diff": 1.1920928955078125e-07,
+        "ip_vs_sklearn_cosine_max_abs_diff": 1.7881393432617188e-07,
+        "reencode_max_abs_diff": 6.332993507385254e-08,
+        "unit_norm_max_deviation": 1.1920928955078125e-07
+      },
+      "checks": {
+        "all_queries_evaluated": true,
+        "doc_index_mapping_consistent": true,
+        "ip_equals_cosine": true,
+        "metrics_reproduced_on_rerun": true,
+        "reencode_reproduces_cache": true,
+        "reloaded_index_equals_in_memory_results": true,
+        "scores_sorted_descending": true
+      },
+      "label": "Baseline MiniLM-L6 (pretrained)",
+      "peak_rss_mb": 630.1,
+      "provenance": {
+        "device": "cpu",
+        "embedding_dim": 384,
+        "max_seq_length": 256,
+        "model_name": "sentence-transformers/all-MiniLM-L6-v2",
+        "requested_revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+        "resolved_revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+        "versions": {
+          "sentence_transformers": "5.6.0",
+          "torch": "2.12.1+cpu",
+          "transformers": "5.12.1"
+        },
+        "weights_file": "model.safetensors",
+        "weights_sha256": "53aa51172d142c89d9012cce15ae4d6cc0ca6895895114379cacb4fab128d9db"
+      },
+      "test_bootstrap_ci": {
+        "mrr@10": {
+          "ci_high": 0.6524087632275133,
+          "ci_low": 0.5572358796296296,
+          "mean": 0.6047248677248678
+        },
+        "ndcg@10": {
+          "ci_high": 0.6900148925271696,
+          "ci_low": 0.6010379065737587,
+          "mean": 0.6450816521455774
+        },
+        "recall@1": {
+          "ci_high": 0.5378916666666665,
+          "ci_low": 0.42705277777777784,
+          "mean": 0.4823333333333333
+        },
+        "recall@10": {
+          "ci_high": 0.8286666666666667,
+          "ci_low": 0.7373333333333333,
+          "mean": 0.7833333333333333
+        }
+      },
+      "test_metrics": {
+        "map@10": 0.5959314814814815,
+        "mrr@10": 0.6047248677248678,
+        "ndcg@10": 0.6450816521455776,
+        "precision@10": 0.08833333333333333,
+        "recall@1": 0.4823333333333333,
+        "recall@10": 0.7833333333333333,
+        "recall@5": 0.7379444444444444
+      },
+      "timing_s": {
+        "encode_corpus": 0.0,
+        "encode_queries_batch": 1.2458758999996462
+      },
+      "validation_metrics": {
+        "map@10": 0.6398393102096807,
+        "mrr@10": 0.6535567313345091,
+        "ndcg@10": 0.6816177563260951,
+        "precision@10": 0.08518518518518518,
+        "recall@1": 0.5329218106995884,
+        "recall@10": 0.7932098765432098,
+        "recall@5": 0.7633744855967078
+      },
+      "validation_to_test_change": {
+        "map@10": -0.043907828728199205,
+        "mrr@10": -0.04883186360964131,
+        "ndcg@10": -0.03653610418051756,
+        "precision@10": 0.00314814814814815,
+        "recall@1": -0.05058847736625516,
+        "recall@10": -0.00987654320987652,
+        "recall@5": -0.02543004115226344
+      },
+      "weights_sha256": "53aa51172d142c89d9012cce15ae4d6cc0ca6895895114379cacb4fab128d9db"
+    },
+    "ft_hardneg_dense": {
+      "best_positive_rank_buckets": {
+        "not in top 100": 17,
+        "rank 1": 181,
+        "rank 11-100": 31,
+        "rank 2-10": 71
+      },
+      "check_numbers": {
+        "ip_vs_numpy_max_abs_diff": 1.1920928955078125e-07,
+        "ip_vs_sklearn_cosine_max_abs_diff": 1.4901161193847656e-07,
+        "reencode_max_abs_diff": 7.078051567077637e-08,
+        "unit_norm_max_deviation": 1.1920928955078125e-07
+      },
+      "checks": {
+        "all_queries_evaluated": true,
+        "doc_index_mapping_consistent": true,
+        "ip_equals_cosine": true,
+        "metrics_reproduced_on_rerun": true,
+        "reencode_reproduces_cache": true,
+        "reloaded_index_equals_in_memory_results": true,
+        "scores_sorted_descending": true
+      },
+      "label": "Fine-tuned (+ mined dense hard negatives)",
+      "peak_rss_mb": 588.1,
+      "provenance": {
+        "device": "cpu",
+        "embedding_dim": 384,
+        "max_seq_length": 256,
+        "model_name": "local:ft_hardneg_dense",
+        "requested_revision": null,
+        "resolved_revision": "local-405b247000543b91",
+        "versions": {
+          "sentence_transformers": "5.6.0",
+          "torch": "2.12.1+cpu",
+          "transformers": "5.12.1"
+        },
+        "weights_file": "model.safetensors",
+        "weights_sha256": "405b247000543b91781bc114afdecbfe7e1e3133f6dae62d352717a949efc051"
+      },
+      "test_bootstrap_ci": {
+        "mrr@10": {
+          "ci_high": 0.7281006283068783,
+          "ci_low": 0.6348383928571429,
+          "mean": 0.6815092592592593
+        },
+        "ndcg@10": {
+          "ci_high": 0.7566525805997417,
+          "ci_low": 0.6694400942736781,
+          "mean": 0.7130938023052816
+        },
+        "recall@1": {
+          "ci_high": 0.6320583333333333,
+          "ci_low": 0.5243888888888889,
+          "mean": 0.5781666666666666
+        },
+        "recall@10": {
+          "ci_high": 0.8693333333333334,
+          "ci_low": 0.7856666666666666,
+          "mean": 0.8276666666666667
+        }
+      },
+      "test_metrics": {
+        "map@10": 0.6723513227513228,
+        "mrr@10": 0.6815092592592593,
+        "ndcg@10": 0.7130938023052817,
+        "precision@10": 0.09266666666666667,
+        "recall@1": 0.5781666666666666,
+        "recall@10": 0.8276666666666667,
+        "recall@5": 0.7743333333333333
+      },
+      "timing_s": {
+        "encode_corpus": 0.0,
+        "encode_queries_batch": 5.518912999999884
+      },
+      "validation_metrics": {
+        "map@10": 0.7109870011104579,
+        "mrr@10": 0.7174113266705859,
+        "ndcg@10": 0.743263648033353,
+        "precision@10": 0.09012345679012347,
+        "recall@1": 0.6183127572016461,
+        "recall@10": 0.8323045267489713,
+        "recall@5": 0.8117283950617284
+      },
+      "validation_to_test_change": {
+        "map@10": -0.03863567835913506,
+        "mrr@10": -0.03590206741132662,
+        "ndcg@10": -0.030169845728071243,
+        "precision@10": 0.0025432098765432037,
+        "recall@1": -0.04014609053497953,
+        "recall@10": -0.004637860082304601,
+        "recall@5": -0.03739506172839513
+      },
+      "weights_sha256": "405b247000543b91781bc114afdecbfe7e1e3133f6dae62d352717a949efc051"
+    }
+  },
+  "paired_selected_minus_baseline": {
+    "mrr@10": {
+      "ci_excludes_zero": true,
+      "ci_high": 0.10784682539682537,
+      "ci_low": 0.04639060846560846,
+      "mean_diff": 0.07678439153439152,
+      "n_queries": 300,
+      "note": "share_resamples_positive is a bootstrap share, NOT a p-value.",
+      "queries_better": 67,
+      "queries_tied": 206,
+      "queries_worse": 27,
+      "share_resamples_positive": 1.0
+    },
+    "ndcg@10": {
+      "ci_excludes_zero": true,
+      "ci_high": 0.09623951387846137,
+      "ci_low": 0.04039377302951041,
+      "mean_diff": 0.06801215015970419,
+      "n_queries": 300,
+      "note": "share_resamples_positive is a bootstrap share, NOT a p-value.",
+      "queries_better": 74,
+      "queries_tied": 197,
+      "queries_worse": 29,
+      "share_resamples_positive": 1.0
+    },
+    "recall@1": {
+      "ci_excludes_zero": true,
+      "ci_high": 0.1375,
+      "ci_low": 0.05583333333333333,
+      "mean_diff": 0.09583333333333334,
+      "n_queries": 300,
+      "note": "share_resamples_positive is a bootstrap share, NOT a p-value.",
+      "queries_better": 38,
+      "queries_tied": 254,
+      "queries_worse": 8,
+      "share_resamples_positive": 1.0
+    },
+    "recall@10": {
+      "ci_excludes_zero": true,
+      "ci_high": 0.07866666666666668,
+      "ci_low": 0.011,
+      "mean_diff": 0.044333333333333336,
+      "n_queries": 300,
+      "note": "share_resamples_positive is a bootstrap share, NOT a p-value.",
+      "queries_better": 23,
+      "queries_tied": 267,
+      "queries_worse": 10,
+      "share_resamples_positive": 0.9948
+    }
+  },
+  "resource_usage_reference": {
+    "see": "model_comparison_val.json models.*.latency_single_query / timing_s / peak_rss_mb (measured once, on validation queries)"
+  },
+  "seed": 42,
+  "selected_model": "ft_hardneg_dense",
+  "stage": "test",
+  "status": "PASS"
+}

@@ -1,0 +1,9 @@
+PASS - document_ids matches corpus order
+PASS - document_ids sorted & unique
+PASS - gate: train_val_disjoint
+PASS - gate: train_test_disjoint
+PASS - gate: val_test_disjoint
+PASS - gate: train_rows_only_train_queries
+PASS - gate: val_rows_only_val_queries
+PASS - gate: no_query_straddles_partitions
+PASS - all qrel IDs resolve

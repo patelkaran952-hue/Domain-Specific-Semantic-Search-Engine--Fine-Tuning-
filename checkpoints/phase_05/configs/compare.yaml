@@ -1,0 +1,44 @@
+# Phase 5: model comparison, selection, and the single held-out test evaluation.
+# Stack on baseline.yaml:   --config configs/baseline.yaml configs/compare.yaml
+candidates:
+  baseline:
+    kind: pretrained
+    label: Baseline MiniLM-L6 (pretrained)
+  ft_pos_only:
+    kind: local
+    label: Fine-tuned (positive pairs)
+    run_id: ft_pos_only
+    model_dir: artifacts/models/ft_pos_only/final
+  ft_hardneg_dense:
+    kind: local
+    label: Fine-tuned (+ mined dense hard negatives)
+    run_id: ft_hardneg_dense
+    model_dir: artifacts/models/ft_hardneg_dense/final
+
+selection:                     # PRE-REGISTERED rule, applied by code on VALIDATION only, then frozen
+  split: val
+  metric: ndcg@10
+  rule: argmax_point_estimate
+  tie_break_order: [baseline, ft_pos_only, ft_hardneg_dense]   # simplest first
+
+bootstrap:
+  n_resamples: 10000
+  seed: 42
+  confidence: 0.95
+  metrics: [ndcg@10, recall@10, mrr@10, recall@1]
+
+comparisons:                   # paired bootstrap on per-query differences: [A, B] reports A minus B
+  - [ft_pos_only, baseline]
+  - [ft_hardneg_dense, baseline]
+  - [ft_hardneg_dense, ft_pos_only]
+
+failure_cases:
+  n_cases: 8
+  snippet_chars: 110
+
+gates:
+  evaluator_agreement_tol: 2.0e-3      # |our nDCG@10 - Phase 4 evaluator nDCG@10| for fine-tuned models
+  baseline_report_tol: 1.0e-6          # must reproduce the Phase 2 baseline metrics
+
+latency:
+  n_warmup: 3

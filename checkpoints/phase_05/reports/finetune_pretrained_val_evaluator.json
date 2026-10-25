@@ -1,0 +1,27 @@
+{
+  "key": {
+    "base_revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "corpus_sha256": "3b603fece11381ca339457929cd0c6c9e20ac08c08c2c7ab3494967bb53ee96f",
+    "max_seq_length": 256,
+    "n_docs": 5183,
+    "n_queries": 162,
+    "val_qrels_sha256": "507a1524e3fd24cae4faae4addc5bf76f6ffadc24c2d6d9ce34ec7271defd0d2",
+    "weights_sha256": "53aa51172d142c89d9012cce15ae4d6cc0ca6895895114379cacb4fab128d9db"
+  },
+  "metrics": {
+    "val_cosine_accuracy@1": 0.5555555555555556,
+    "val_cosine_accuracy@10": 0.8024691358024691,
+    "val_cosine_accuracy@5": 0.7777777777777778,
+    "val_cosine_map@10": 0.6398393102096807,
+    "val_cosine_mrr@10": 0.653556731334509,
+    "val_cosine_ndcg@10": 0.6816177563260952,
+    "val_cosine_precision@1": 0.5555555555555556,
+    "val_cosine_precision@10": 0.08518518518518517,
+    "val_cosine_precision@5": 0.16296296296296295,
+    "val_cosine_recall@1": 0.5329218106995884,
+    "val_cosine_recall@10": 0.7932098765432098,
+    "val_cosine_recall@5": 0.7633744855967077
+  },
+  "note": "Same evaluator as during training: an apples-to-apples epoch-0 reference.",
+  "seconds": 218.7
+}

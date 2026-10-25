@@ -1,0 +1,116 @@
+{
+  "caveats": [
+    "Unjudged top-ranked documents are not verified negatives.",
+    "Training-query diagnostics here are NOT validation metrics.",
+    "Only training-partition qrels were read; val/test judgments were not."
+  ],
+  "elapsed_s": 36.31,
+  "file_status": {
+    "hard_negatives_bm25.jsonl": "unchanged",
+    "mining_settings_bm25.json": "unchanged",
+    "samples_bm25.md": "unchanged",
+    "train_positive_pairs.jsonl": "unchanged",
+    "train_triplets_bm25.jsonl": "unchanged"
+  },
+  "gates": {
+    "every_training_query_mined": true,
+    "mined_queries_are_training_queries_only": true,
+    "negatives_exist_in_corpus": true,
+    "no_duplicate_negatives_within_query": true,
+    "no_known_positive_collisions": true,
+    "no_validation_or_test_queries": true,
+    "pairs_equal_train_qrels": true,
+    "pool_size_respected": true,
+    "triplet_count_equals_pairs_with_pool": true,
+    "triplet_negative_never_its_positive": true,
+    "triplets_pairs_in_train_qrels": true
+  },
+  "generated_utc": "2026-10-24T09:06:04+00:00",
+  "n_positive_pairs": 742,
+  "n_triplets": 742,
+  "output_sha256": {
+    "hard_negatives_bm25.jsonl": "97f1e449d89d4917868fb319d38b8501679ff42ce304e3abbfc6cbf731f842a9",
+    "mining_settings_bm25.json": "a7b579b64ab887c4bc65699e5768e37444e63c9dddfa83302d2cbe98754caf7b",
+    "samples_bm25.md": "e23520d241d637c492f074ce83d809ae7e91541a778fcfa1cb02d01a29d91215",
+    "train_positive_pairs.jsonl": "30bd24d61bd53201668f115bc48bfbc2a9a928cfd6df47db5f5da9ad3d4efba3",
+    "train_triplets_bm25.jsonl": "17f710199890859ab528bb5522fd0d3bca6e63833aedb7fa23891e52776fcdb9"
+  },
+  "source": "bm25",
+  "stats": {
+    "best_positive_score": {
+      "max": 108.055893,
+      "median": 29.00359,
+      "min": 0.0,
+      "p25": 16.4644785,
+      "p75": 42.803978,
+      "p95": 67.86455879999997
+    },
+    "excluded_candidate_totals": {
+      "known_positive": 639
+    },
+    "flagged_false_negative_risk": {
+      "fraction": 0.366,
+      "n": 1184,
+      "threshold": 0.95
+    },
+    "most_reused_negative_docs": [
+      [
+        "18557974",
+        8
+      ],
+      [
+        "37424881",
+        8
+      ],
+      [
+        "12827098",
+        8
+      ],
+      [
+        "7177329",
+        8
+      ],
+      [
+        "4319174",
+        7
+      ]
+    ],
+    "n_negatives_in_pools": 3235,
+    "n_queries": 647,
+    "negative_rank": {
+      "max": 9.0,
+      "median": 4.0,
+      "min": 1.0,
+      "p25": 2.0,
+      "p75": 5.0,
+      "p95": 6.0
+    },
+    "negative_score": {
+      "max": 93.976875,
+      "median": 20.207125,
+      "min": 6.770788,
+      "p25": 16.010437,
+      "p75": 26.679842999999998,
+      "p95": 42.3523806
+    },
+    "negative_to_positive_score_ratio": {
+      "max": 1979.4956,
+      "median": 0.76185,
+      "min": 0.1634,
+      "p25": 0.5120750000000001,
+      "p75": 1.17985,
+      "p95": 3.2825349999999953
+    },
+    "negatives_that_are_positives_of_OTHER_train_queries": 356,
+    "queries_with_empty_pool": 0,
+    "queries_with_full_pool": 647,
+    "train_query_best_positive_rank_diagnostics": {
+      "frac_top1": 0.5549,
+      "frac_top10": 0.796,
+      "frac_top50": 0.8733,
+      "median": 1.0
+    },
+    "unique_negative_docs": 1956
+  },
+  "status": "PASS"
+}

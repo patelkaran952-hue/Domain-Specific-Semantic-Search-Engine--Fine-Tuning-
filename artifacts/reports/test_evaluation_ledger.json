@@ -1,0 +1,36 @@
+[
+  {
+    "entry_key": "ft_hardneg_dense:405b247000543b91781bc114afdecbfe7e1e3133f6dae62d352717a949efc051:d8e886cb5d080d5f34aba4111ca73d4546160191666e4cfb5fa9893e949ad0db",
+    "evaluated_utc": "2026-10-25T19:25:17+00:00",
+    "frozen_fingerprint": "d8e886cb5d080d5f34aba4111ca73d4546160191666e4cfb5fa9893e949ad0db",
+    "metrics": {
+      "map@10": 0.6723513227513228,
+      "mrr@10": 0.6815092592592593,
+      "ndcg@10": 0.7130938023052817,
+      "precision@10": 0.09266666666666667,
+      "recall@1": 0.5781666666666666,
+      "recall@10": 0.8276666666666667,
+      "recall@5": 0.7743333333333333
+    },
+    "model": "ft_hardneg_dense",
+    "n_queries": 300,
+    "weights_sha256": "405b247000543b91781bc114afdecbfe7e1e3133f6dae62d352717a949efc051"
+  },
+  {
+    "entry_key": "baseline:53aa51172d142c89d9012cce15ae4d6cc0ca6895895114379cacb4fab128d9db:d8e886cb5d080d5f34aba4111ca73d4546160191666e4cfb5fa9893e949ad0db",
+    "evaluated_utc": "2026-10-25T19:25:17+00:00",
+    "frozen_fingerprint": "d8e886cb5d080d5f34aba4111ca73d4546160191666e4cfb5fa9893e949ad0db",
+    "metrics": {
+      "map@10": 0.5959314814814815,
+      "mrr@10": 0.6047248677248678,
+      "ndcg@10": 0.6450816521455776,
+      "precision@10": 0.08833333333333333,
+      "recall@1": 0.4823333333333333,
+      "recall@10": 0.7833333333333333,
+      "recall@5": 0.7379444444444444
+    },
+    "model": "baseline",
+    "n_queries": 300,
+    "weights_sha256": "53aa51172d142c89d9012cce15ae4d6cc0ca6895895114379cacb4fab128d9db"
+  }
+]
