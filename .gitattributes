@@ -1,0 +1,7 @@
+* text=auto
+*.jsonl -text
+*.tsv -text
+*.json -text
+*.faiss binary
+*.npy binary
+*.safetensors binary
