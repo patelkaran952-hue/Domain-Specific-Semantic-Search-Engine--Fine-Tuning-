@@ -1,0 +1,31 @@
+# Base configuration. Every tunable value lives here (CLAUDE.md section 10).
+project:
+  name: scientific-semantic-search
+  seed: 42
+
+paths:            # all relative to the repository root
+  raw_dir: data/raw
+  processed_dir: data/processed
+  mining_dir: data/mining
+  reports_dir: artifacts/reports
+  checkpoints_dir: checkpoints
+
+raw_files:        # original uploads: immutable
+  corpus: corpus.jsonl
+  queries: queries.jsonl
+  train_qrels: train.tsv
+  test_qrels: test.tsv
+
+preprocess:
+  title_text_separator: "\n"   # document text = title + separator + abstract
+  max_seq_length: 256          # encoder limit used from Phase 2 onward (wordpieces)
+  approx_words_per_wordpiece_budget: 190   # rough audit heuristic only, NOT a tokenizer measurement
+
+split:
+  val_fraction: 0.20           # query-level split of the 809 official training queries
+  seed: 42
+
+sample_search:                 # Phase 1 lexical sanity check (TF-IDF, no training)
+  n_queries: 5
+  top_k: 5
+  seed: 42

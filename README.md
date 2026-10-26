@@ -90,6 +90,21 @@ reports paired bootstrap CIs, and writes `artifacts/reports/model_selection.json
 refuses to run unless that freeze is intact, evaluates only the frozen model and the baseline, and records the evaluation in
 `test_evaluation_ledger.json`; after that, validation/selection can no longer be re-run (that would be test-guided iteration).
 
+## Phase 6 commands (packaged search service)
+```powershell
+python scripts/build_search_package.py        # copies the FROZEN model + embeddings + FAISS index + ID map into artifacts/service/<name>/ (hash-checked, never overwrites)
+python scripts/validate_search_service.py     # reload vs Phase 5 rankings (tie-aware), input handling, cosine check, latency AFTER startup
+python scripts/search_cli.py "Wnt signaling in stem cells" --top-k 5
+python scripts/build_notebook_phase06.py --execute
+```
+```python
+from src.search_service import SearchService
+svc = SearchService.load("artifacts/service/scifact_search_v1")      # verifies SHA-256 of every packaged file
+hits = svc.search("statin therapy and cardiovascular mortality", top_k=5)   # rank, corpus_id, title, snippet, similarity_score
+```
+Empty queries return no hits (status `empty_query`); `top_k` above the service limit or corpus size is clipped and flagged; invalid types/values
+raise `TypeError`/`ValueError`. `similarity_score` is cosine similarity, **not** a probability of relevance or factual correctness.
+
 ## Data design (summary)
 - 5,183 documents, 1,109 queries; official `train.tsv` (919 positives / 809 queries), `test.tsv` (339 / 300).
 - Validation = seeded (42) query-level 80/20 split of the official training queries → 647 train / 162 val queries.

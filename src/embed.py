@@ -18,6 +18,12 @@ class CacheMismatch(Exception):
     """Cached embeddings do not match the requested model/config/corpus (rebuild required)."""
 
 
+def _embedding_dim(model) -> int:
+    """Sentence-Transformers renamed get_sentence_embedding_dimension -> get_embedding_dimension; support both."""
+    fn = getattr(model, "get_embedding_dimension", None) or model.get_sentence_embedding_dimension
+    return int(fn())
+
+
 def l2_normalize(x: np.ndarray, eps: float = 1e-12) -> np.ndarray:
     x = np.asarray(x, dtype=np.float32)
     norms = np.linalg.norm(x, axis=1, keepdims=True)
@@ -48,7 +54,7 @@ def load_sentence_model(name: str, revision: str | None, max_seq_length: int, de
         "weights_file": weights.name if weights else None,
         "weights_sha256": sha256_file(weights) if weights else None,
         "max_seq_length": max_seq_length,
-        "embedding_dim": model.get_sentence_embedding_dimension(),
+        "embedding_dim": _embedding_dim(model),
         "device": device,
         "versions": {"torch": torch.__version__, "sentence_transformers": sentence_transformers.__version__,
                      "transformers": transformers.__version__},
@@ -79,7 +85,7 @@ def load_local_model(model_dir: Path, max_seq_length: int, run_id: str, device: 
     wsha = sha256_file(weights)
     prov = {"model_name": f"local:{run_id}", "requested_revision": None, "resolved_revision": f"local-{wsha[:16]}",
             "weights_file": str(weights.relative_to(model_dir)), "weights_sha256": wsha, "max_seq_length": int(max_seq_length),
-            "embedding_dim": model.get_sentence_embedding_dimension(), "device": device,
+            "embedding_dim": _embedding_dim(model), "device": device,
             "versions": {"torch": torch.__version__, "sentence_transformers": sentence_transformers.__version__,
                          "transformers": transformers.__version__}}
     return model, prov

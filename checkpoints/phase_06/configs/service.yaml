@@ -1,0 +1,26 @@
+# Phase 6: packaged search service. Stack: --config configs/baseline.yaml configs/compare.yaml configs/service.yaml
+paths:
+  service_dir: artifacts/service
+
+service:
+  package_name: scifact_search_v1
+  default_top_k: 10
+  max_top_k: 100                 # requests above this (or above the corpus size) are clipped and flagged
+  snippet_chars: 300
+  max_query_chars: 2000          # longer queries are truncated (the encoder keeps only max_seq_length wordpieces anyway)
+  verify_hashes_on_load: true
+
+validation:
+  tie_tolerance: 2.0e-5          # rank swaps are accepted only between scores this close (Phase 5 stored scores rounded to 1e-6)
+  ndcg_tolerance: 1.0e-4         # service-computed validation nDCG@10 vs the Phase 5 value
+  score_tolerance: 1.0e-5        # service score vs independent dot product of normalized vectors
+  n_score_samples: 20
+  example_queries:               # retrieval demos only; similarity is NOT a probability that a claim is true
+    - Wnt signaling in embryonic stem cell differentiation
+    - statin therapy and cardiovascular mortality
+    - CRISPR off-target effects in human cells
+
+benchmark:
+  n_warmup: 3
+  repeats: 2                     # passes over the validation queries
+  top_ks: [1, 10, 100]

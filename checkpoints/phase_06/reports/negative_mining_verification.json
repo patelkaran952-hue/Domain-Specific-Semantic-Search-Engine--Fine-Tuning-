@@ -1,0 +1,65 @@
+{
+  "failed_gates": {
+    "bm25": [],
+    "dense": []
+  },
+  "finetune_comparability": {
+    "counts": {
+      "pairs": 742,
+      "triplets": 742
+    },
+    "experiments_differ_only_in_data_and_columns": true,
+    "hard_negative_data_exists": true,
+    "hard_negative_loss_consumes_negative_column": true,
+    "hard_negative_source_is_mined": true,
+    "positive_only_data_exists": true,
+    "positive_only_has_no_negative_column": true,
+    "same_train_pairs_count": true,
+    "single_shared_training_block": true
+  },
+  "generated_utc": "2026-10-24T09:11:51+00:00",
+  "missing_sources": [],
+  "notes": [
+    "Gates read only training qrels and ID lists; no validation/test judgments.",
+    "Hard negatives are unjudged; false-negative risk is flagged, not eliminated."
+  ],
+  "per_source_gates": {
+    "bm25": {
+      "every_training_query_mined": true,
+      "inputs_unchanged_since_mining": true,
+      "mined_queries_are_training_queries_only": true,
+      "mining_report_status_PASS": true,
+      "negatives_exist_in_corpus": true,
+      "no_duplicate_negatives_within_query": true,
+      "no_known_positive_collisions": true,
+      "no_validation_or_test_queries": true,
+      "pairs_equal_train_qrels": true,
+      "pool_size_respected": true,
+      "seed_matches_config": true,
+      "triplet_count_equals_pairs_with_pool": true,
+      "triplet_negative_never_its_positive": true,
+      "triplets_pairs_in_train_qrels": true
+    },
+    "dense": {
+      "every_training_query_mined": true,
+      "inputs_unchanged_since_mining": true,
+      "mined_queries_are_training_queries_only": true,
+      "mining_report_status_PASS": true,
+      "negatives_exist_in_corpus": true,
+      "no_duplicate_negatives_within_query": true,
+      "no_known_positive_collisions": true,
+      "no_validation_or_test_queries": true,
+      "pairs_equal_train_qrels": true,
+      "pool_size_respected": true,
+      "seed_matches_config": true,
+      "triplet_count_equals_pairs_with_pool": true,
+      "triplet_negative_never_its_positive": true,
+      "triplets_pairs_in_train_qrels": true
+    }
+  },
+  "required_sources": [
+    "bm25",
+    "dense"
+  ],
+  "status": "PASS"
+}

@@ -1,0 +1,179 @@
+{
+  "caveats": [
+    "Latency is single-user, sequential, CPU-only on this machine; not a throughput guarantee.",
+    "similarity_score is cosine similarity, not a probability of relevance or factual correctness."
+  ],
+  "elapsed_s": 47.6,
+  "end_to_end_metric": {
+    "abs_diff": 0.0,
+    "note": "validation split only; test.tsv not used in this phase",
+    "phase5_val_ndcg@10": 0.743263648033353,
+    "service_val_ndcg@10": 0.743263648033353
+  },
+  "environment": {
+    "cpu_count": 8,
+    "torch_threads": 4
+  },
+  "example_queries": {
+    "CRISPR off-target effects in human cells": [
+      {
+        "corpus_id": "47018050",
+        "rank": 1,
+        "similarity_score": 0.5605,
+        "title": "CRISPR–Cas9 genome editing induces a p53-mediated DNA damage response"
+      },
+      {
+        "corpus_id": "461550",
+        "rank": 2,
+        "similarity_score": 0.5459,
+        "title": "Multiplex genome engineering using CRISPR/Cas systems."
+      },
+      {
+        "corpus_id": "21561474",
+        "rank": 3,
+        "similarity_score": 0.4831,
+        "title": "Increasing the efficiency of precise genome editing with CRISPR-Cas9 by inhibition of nonhomologous end joining"
+      }
+    ],
+    "Wnt signaling in embryonic stem cell differentiation": [
+      {
+        "corpus_id": "23418635",
+        "rank": 1,
+        "similarity_score": 0.6316,
+        "title": "Embryonic stem cells require Wnt proteins to prevent differentiation to epiblast stem cells"
+      },
+      {
+        "corpus_id": "23804187",
+        "rank": 2,
+        "similarity_score": 0.6142,
+        "title": "Wnt/β-catenin signaling defines organizing centers that orchestrate growth and differentiation of the regenerating zebrafish caudal fin."
+      },
+      {
+        "corpus_id": "30675656",
+        "rank": 3,
+        "similarity_score": 0.6066,
+        "title": "Dishevelled Activates JNK and Discriminates between JNK Pathways in Planar Polarity and wingless Signaling"
+      }
+    ],
+    "statin therapy and cardiovascular mortality": [
+      {
+        "corpus_id": "5698494",
+        "rank": 1,
+        "similarity_score": 0.6529,
+        "title": "The benefits of statins in people without established cardiovascular disease but with cardiovascular risk factors: meta-analysis of randomised controlled trials"
+      },
+      {
+        "corpus_id": "1287809",
+        "rank": 2,
+        "similarity_score": 0.6172,
+        "title": "Cost-effectiveness of 10-Year Risk Thresholds for Initiation of Statin Therapy for Primary Prevention of Cardiovascular Disease."
+      },
+      {
+        "corpus_id": "27466734",
+        "rank": 3,
+        "similarity_score": 0.5821,
+        "title": "Development and validation of QRISK3 risk prediction algorithms to estimate future risk of cardiovascular disease: prospective cohort study"
+      }
+    ]
+  },
+  "freeze_fingerprint": "d8e886cb5d080d5f34aba4111ca73d4546160191666e4cfb5fa9893e949ad0db",
+  "gates": {
+    "faiss_index_equals_packaged_embeddings": true,
+    "input:default_top_k_used_when_none": true,
+    "input:empty_and_whitespace_query_return_no_hits_gracefully": true,
+    "input:huge_top_k_is_clipped_and_flagged": true,
+    "input:invalid_top_k_raises": true,
+    "input:non_string_query_raises_TypeError": true,
+    "input:nul_character_handled": true,
+    "input:unicode_query_ok": true,
+    "input:very_long_query_truncated_not_crashing": true,
+    "input:whitespace_variants_give_identical_results": true,
+    "package_hashes_verified": true,
+    "reloaded_rankings_match_phase5_run_tie_aware": true,
+    "result_schema_ordering_uniqueness": true,
+    "scores_are_true_cosines": true,
+    "service_val_ndcg10_matches_phase5": true,
+    "two_independent_loads_identical": true
+  },
+  "generated_utc": "2026-10-26T06:44:21+00:00",
+  "input_handling_observed": {
+    "empty / whitespace query": "status=empty_query, 0 hits (no exception)",
+    "top_k 0 / negative": "ValueError",
+    "top_k = 1,000,000": "clipped to 100 with warning",
+    "top_k float / bool / str": "TypeError"
+  },
+  "latency_after_startup": {
+    "top_k=1": {
+      "encode_ms_mean": 15.496688271596605,
+      "faiss_search_ms_mean": 0.8570086419848131,
+      "format_ms_mean": 0.15239320987628746,
+      "n_calls": 324,
+      "throughput_qps_sequential": 60.42829223547481,
+      "total_ms": {
+        "max": 87.79219999996712,
+        "mean": 16.506090123457707,
+        "p50": 15.530699999999342,
+        "p95": 22.87361499995767,
+        "p99": 29.74401799986024
+      }
+    },
+    "top_k=10": {
+      "encode_ms_mean": 16.42618487653846,
+      "faiss_search_ms_mean": 0.8816444444450839,
+      "format_ms_mean": 1.009986111105937,
+      "n_calls": 324,
+      "throughput_qps_sequential": 54.44652411121418,
+      "total_ms": {
+        "max": 102.38909999998214,
+        "mean": 18.31781543208948,
+        "p50": 17.26174999998875,
+        "p95": 23.83072000000083,
+        "p99": 32.618211000008124
+      }
+    },
+    "top_k=100": {
+      "encode_ms_mean": 14.41255493827884,
+      "faiss_search_ms_mean": 0.801391049378708,
+      "format_ms_mean": 8.682039506173163,
+      "n_calls": 324,
+      "throughput_qps_sequential": 41.72972760495204,
+      "total_ms": {
+        "max": 105.81660000002557,
+        "mean": 23.89598549383071,
+        "p50": 23.339850000070328,
+        "p95": 30.485529999907605,
+        "p99": 42.13887799992325
+      }
+    }
+  },
+  "memory_mb": {
+    "note": "RSS of the whole Python process (two services were loaded for the reload check)",
+    "peak_rss_during_benchmark": 674.9,
+    "rss_after_load": 500.5
+  },
+  "model": "ft_hardneg_dense",
+  "package": {
+    "extra_files": [],
+    "n_files": 13,
+    "size_mb": 115.6
+  },
+  "reload_consistency": {
+    "compared_depth": 100,
+    "exact": 162,
+    "failing_queries": [],
+    "n_queries": 162,
+    "not_equivalent": 0,
+    "tie_aware_equivalent_not_exact": 0,
+    "tie_tolerance": 2e-05
+  },
+  "score_check_max_abs_diff": 1.1920928955078125e-07,
+  "stage": "service_validation",
+  "startup_s_excluded_from_latency": {
+    "load_documents": 0.0558331999998245,
+    "load_index": 0.03678360000003522,
+    "load_model": 17.134457999999995,
+    "total": 17.813241500000004,
+    "verify_hashes": 0.5861667000001489
+  },
+  "status": "PASS"
+}

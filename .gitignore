@@ -19,3 +19,4 @@ artifacts/indexes/
 
 # smoke-run scratch output
 artifacts/smoke/
+artifacts/service/
