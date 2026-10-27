@@ -1,0 +1,73 @@
+{
+  "app": "D:\\Domain-Specific Semantic Search Engine (Fine Tuning)\\app\\streamlit_app.py",
+  "generated_utc": "2026-10-27T18:20:59+00:00",
+  "manual_check_pending": "Open `streamlit run app/streamlit_app.py` in a browser and visually confirm layout (cannot be automated here).",
+  "method": "streamlit.testing.v1.AppTest (headless; not a browser)",
+  "models_offered": [
+    {
+      "available": true,
+      "key": "ft_hardneg_dense"
+    },
+    {
+      "available": true,
+      "key": "baseline"
+    }
+  ],
+  "status": "PASS",
+  "steps": [
+    {
+      "detail": "title='🔎 Scientific Paper Search (SciFact)' errors=[]",
+      "ok": true,
+      "seconds": 12.71,
+      "step": "initial_load_no_exception"
+    },
+    {
+      "detail": "results=0",
+      "ok": true,
+      "seconds": 0.0,
+      "step": "empty_query_prompts_user"
+    },
+    {
+      "detail": "results=10 expected=10",
+      "ok": true,
+      "seconds": 0.14,
+      "step": "query_returns_default_top_k"
+    },
+    {
+      "detail": "results=3 expected=3",
+      "ok": true,
+      "seconds": 0.06,
+      "step": "slider_changes_result_count"
+    },
+    {
+      "detail": "results=0",
+      "ok": true,
+      "seconds": 0.03,
+      "step": "whitespace_query_is_graceful"
+    },
+    {
+      "detail": "query='Wnt signaling in embryonic stem cell differentiation' results=10",
+      "ok": true,
+      "seconds": 0.1,
+      "step": "example_button_fills_query_and_searches"
+    },
+    {
+      "detail": "baseline results=10",
+      "ok": true,
+      "seconds": 1.01,
+      "step": "switch_to_baseline_returns_results"
+    },
+    {
+      "detail": "results=20 expected=20",
+      "ok": true,
+      "seconds": 0.09,
+      "step": "compare_side_by_side_shows_both_lists"
+    },
+    {
+      "detail": "health='ok' index_http=200 port=8599",
+      "ok": true,
+      "seconds": 2.85,
+      "step": "streamlit_run_server_health"
+    }
+  ]
+}

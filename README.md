@@ -105,6 +105,18 @@ hits = svc.search("statin therapy and cardiovascular mortality", top_k=5)   # ra
 Empty queries return no hits (status `empty_query`); `top_k` above the service limit or corpus size is clipped and flagged; invalid types/values
 raise `TypeError`/`ValueError`. `similarity_score` is cosine similarity, **not** a probability of relevance or factual correctness.
 
+## Phase 7 commands (Streamlit UI)
+```powershell
+python -m pip install -r requirements.txt      # adds streamlit
+python scripts/smoke_test_app.py --serve-check   # headless run of the real app against the real package + `streamlit run` health check
+streamlit run app/streamlit_app.py               # then open the printed local URL
+python scripts/build_notebook_phase07.py --execute
+```
+The app shows a query box, a top-k slider, ranked results (paper ID, title, snippet, cosine similarity, optional full abstract) and a friendly
+message for empty queries. The fine-tuned model is the default; the pretrained baseline is offered (and a side-by-side comparison) **only** when its
+embeddings and index exist. Models load lazily and once per process (`st.cache_resource`). Dataset text is Markdown/LaTeX-escaped before display.
+Scores are cosine similarities, not probabilities of relevance or truth.
+
 ## Data design (summary)
 - 5,183 documents, 1,109 queries; official `train.tsv` (919 positives / 809 queries), `test.tsv` (339 / 300).
 - Validation = seeded (42) query-level 80/20 split of the official training queries → 647 train / 162 val queries.

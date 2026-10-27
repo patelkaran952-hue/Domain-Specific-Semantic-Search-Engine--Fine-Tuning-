@@ -1,0 +1,18 @@
+# Phase 7: Streamlit UI. Stack: --config configs/baseline.yaml configs/compare.yaml configs/service.yaml configs/app.yaml
+app:
+  title: Scientific Paper Search (SciFact)
+  max_top_k_ui: 50              # slider upper bound (the service itself allows up to service.max_top_k)
+  warmup_query: warm-up query   # one throwaway search after load so the first user query is not slow
+  show_full_abstract: true
+  compare_enabled: true         # side-by-side view; only offered when the baseline assets exist
+  example_queries:
+    - Wnt signaling in embryonic stem cell differentiation
+    - statin therapy and cardiovascular mortality
+    - CRISPR off-target effects in human cells
+  server:                       # used only by scripts/smoke_test_app.py --serve-check
+    port: 8599
+    health_timeout_s: 90
+
+smoke:
+  apptest_timeout_s: 240        # model load can take ~20 s on CPU; AppTest's default (3 s) is far too short
+  queries: [Wnt signaling in embryonic stem cell differentiation, statin therapy and cardiovascular mortality]

@@ -1,0 +1,117 @@
+{
+  "caveats": [
+    "Unjudged top-ranked documents are not verified negatives.",
+    "Training-query diagnostics here are NOT validation metrics.",
+    "Only training-partition qrels were read; val/test judgments were not."
+  ],
+  "elapsed_s": 103.22,
+  "file_status": {
+    "hard_negatives_dense.jsonl": "created",
+    "mining_settings_dense.json": "created",
+    "samples_dense.md": "created",
+    "train_positive_pairs.jsonl": "unchanged",
+    "train_triplets_dense.jsonl": "created"
+  },
+  "gates": {
+    "dense_top10_matches_faiss_index_on_sample": true,
+    "every_training_query_mined": true,
+    "mined_queries_are_training_queries_only": true,
+    "negatives_exist_in_corpus": true,
+    "no_duplicate_negatives_within_query": true,
+    "no_known_positive_collisions": true,
+    "no_validation_or_test_queries": true,
+    "pairs_equal_train_qrels": true,
+    "pool_size_respected": true,
+    "triplet_count_equals_pairs_with_pool": true,
+    "triplet_negative_never_its_positive": true,
+    "triplets_pairs_in_train_qrels": true
+  },
+  "generated_utc": "2026-10-24T09:07:47+00:00",
+  "n_positive_pairs": 742,
+  "n_triplets": 742,
+  "output_sha256": {
+    "hard_negatives_dense.jsonl": "767dd688205ec219bd636321375fefcc009e27a4154675bcd349062e3abba563",
+    "mining_settings_dense.json": "2caf14efa1d682ed18380610d72a4448128b38572c73704a0fdfd92796f90c26",
+    "samples_dense.md": "fed0a5986a641c359839842f872b22286e8d3645d3ec2c553e6528a5d2014309",
+    "train_positive_pairs.jsonl": "30bd24d61bd53201668f115bc48bfbc2a9a928cfd6df47db5f5da9ad3d4efba3",
+    "train_triplets_dense.jsonl": "466cb35aaa76917ad19e160af75947843c0e89cad7414b865b49fd08b3ebff35"
+  },
+  "source": "dense",
+  "stats": {
+    "best_positive_score": {
+      "max": 0.864823,
+      "median": 0.581544,
+      "min": 0.132607,
+      "p25": 0.46481700000000004,
+      "p75": 0.6729705,
+      "p95": 0.7949961999999996
+    },
+    "excluded_candidate_totals": {
+      "known_positive": 661
+    },
+    "flagged_false_negative_risk": {
+      "fraction": 0.3991,
+      "n": 1291,
+      "threshold": 0.95
+    },
+    "most_reused_negative_docs": [
+      [
+        "14865329",
+        8
+      ],
+      [
+        "34439544",
+        8
+      ],
+      [
+        "40949706",
+        8
+      ],
+      [
+        "24282306",
+        8
+      ],
+      [
+        "34498325",
+        6
+      ]
+    ],
+    "n_negatives_in_pools": 3235,
+    "n_queries": 647,
+    "negative_rank": {
+      "max": 9.0,
+      "median": 4.0,
+      "min": 1.0,
+      "p25": 2.0,
+      "p75": 5.0,
+      "p95": 6.0
+    },
+    "negative_score": {
+      "max": 0.918003,
+      "median": 0.518622,
+      "min": 0.170002,
+      "p25": 0.4591355,
+      "p75": 0.5771615,
+      "p95": 0.6849495999999993
+    },
+    "negative_to_positive_score_ratio": {
+      "max": 2.7741,
+      "median": 0.9023,
+      "min": 0.372,
+      "p25": 0.7782,
+      "p75": 1.07855,
+      "p95": 1.5968999999999998
+    },
+    "negatives_that_are_positives_of_OTHER_train_queries": 286,
+    "queries_with_empty_pool": 0,
+    "queries_with_full_pool": 647,
+    "train_query_best_positive_rank_diagnostics": {
+      "frac_top1": 0.5178,
+      "frac_top10": 0.7944,
+      "frac_top50": 0.8934,
+      "median": 1.0
+    },
+    "unique_negative_docs": 1910
+  },
+  "status": "PASS"
+}

@@ -30,7 +30,7 @@ def l2_normalize(x: np.ndarray, eps: float = 1e-12) -> np.ndarray:
     return (x / np.maximum(norms, eps)).astype(np.float32, copy=False)
 
 
-def load_sentence_model(name: str, revision: str | None, max_seq_length: int, device: str = "cpu"):
+def load_sentence_model(name: str, revision: str | None, max_seq_length: int, device: str = "cpu", local_files_only: bool = False):
     """Download/resolve the model and return (model, provenance). Provenance carries the exact
     commit hash and the SHA-256 of the weights file."""
     try:
@@ -43,7 +43,7 @@ def load_sentence_model(name: str, revision: str | None, max_seq_length: int, de
         raise RuntimeError(
             f"Missing dependency ({exc.name}). Install with: python -m pip install -r requirements.txt"
         ) from exc
-    local_dir = Path(snapshot_download(repo_id=name, revision=revision))
+    local_dir = Path(snapshot_download(repo_id=name, revision=revision, local_files_only=local_files_only))
     model = SentenceTransformer(str(local_dir), device=device)
     model.max_seq_length = max_seq_length
     weights = next((p for p in (local_dir / "model.safetensors", local_dir / "pytorch_model.bin") if p.exists()), None)

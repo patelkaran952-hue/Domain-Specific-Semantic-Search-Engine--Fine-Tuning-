@@ -159,6 +159,13 @@ class SearchService:
         """Ranked hits (empty list for an empty query). Raises TypeError/ValueError for invalid argument types/values."""
         return self.search_detailed(query, top_k).hits
 
+    def get_document(self, corpus_id: str) -> dict[str, str]:
+        """Title and full abstract of a corpus document (KeyError if the ID is unknown)."""
+        if not hasattr(self, "_pos"):
+            self._pos = {d: i for i, d in enumerate(self._ids)}
+        d = self._docs[self._pos[corpus_id]]
+        return {"corpus_id": corpus_id, "title": d["title"], "text": d["text"]}
+
     def info(self) -> dict[str, Any]:
         m = self.manifest
         return {"package": m["package_name"], "model": m["selected_model"], "n_documents": self._index.ntotal, "dim": self._index.d,

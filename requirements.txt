@@ -21,6 +21,7 @@ huggingface_hub>=0.23
 faiss-cpu>=1.7.4
 psutil>=5.9
 
+streamlit>=1.35          # Phase 7 UI (st.container(border=True) needs >=1.29; AppTest smoke tests use streamlit.testing)
+
 # Added in later phases (not required yet):
-# streamlit                                            -> Phase 7
 # rank-bm25 (optional BM25 negative mining)            -> Phase 3
