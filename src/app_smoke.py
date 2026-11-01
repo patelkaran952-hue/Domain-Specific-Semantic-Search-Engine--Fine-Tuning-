@@ -20,7 +20,7 @@ def _info_has(at, text: str) -> bool:
     return any(text in str(i.value) for i in at.info)
 
 
-def run_app_smoke(cfg: dict, app_path: Path, timeout_s: float, queries: list[str], default_top_k: int) -> dict:
+def run_app_smoke(cfg: dict, app_path: Path, timeout_s: float, queries: list[str], default_top_k: int, rag: dict | None = None) -> dict:
     from streamlit.testing.v1 import AppTest
 
     steps: list[dict] = []
@@ -76,6 +76,36 @@ def run_app_smoke(cfg: dict, app_path: Path, timeout_s: float, queries: list[str
     step("slider_changes_result_count", slider)
     step("whitespace_query_is_graceful", whitespace)
     step("example_button_fills_query_and_searches", example_button)
+    if rag:
+        def rag_extractive():
+            at = state["at"].text_input(key="query").set_value(queries[0]).run()
+            at = at.checkbox(key="rag_on").check().run()
+            state["at"] = at
+            labelled = any("Evidence summary" in str(m.value) for m in at.markdown)
+            cited = any("Cited papers" in str(m.value) for m in at.markdown)
+            n = _n_results(at)
+            return (labelled and cited and n == default_top_k), f"evidence_label={labelled} cited_papers={cited} search_results={n}"
+
+        def rag_off_topic():
+            at = state["at"].text_input(key="query").set_value(rag["off_topic_query"]).run()
+            state["at"] = at
+            warned = any(rag["no_evidence_text"] in " ".join(str(w.value).split()) for w in at.warning)
+            no_cited = not any("Cited papers" in str(m.value) for m in at.markdown)
+            n = _n_results(at)
+            return (warned and no_cited and n == default_top_k), f"no_evidence_warning={warned} no_citations={no_cited} search_results_still_shown={n}"
+
+        def rag_off():
+            at = state["at"]
+            at.checkbox(key="rag_on").uncheck()                       # widget methods return the widget; run() is on the app
+            at = at.text_input(key="query").set_value(queries[0]).run()
+            state["at"] = at
+            return (not any("Evidence summary" in str(m.value) for m in at.markdown) and _n_results(at) == default_top_k), f"search_results={_n_results(at)}"
+
+        step("rag_extractive_answer_cites_retrieved_papers", rag_extractive)
+        step("rag_off_topic_query_gives_no_evidence_but_search_still_works", rag_off_topic)
+        step("rag_toggle_off_restores_plain_search", rag_off)
+    else:
+        steps.append({"step": "rag_panel", "ok": True, "seconds": 0.0, "detail": "not exercised (RAG not calibrated/enabled)"})
     if any(r.key == "model_key" for r in state["at"].radio):
         def baseline():
             state["at"] = state["at"].text_input(key="query").set_value(queries[-1]).run()
@@ -97,7 +127,7 @@ def run_app_smoke(cfg: dict, app_path: Path, timeout_s: float, queries: list[str
 
 
 def _finish(steps: list[dict], app_path: Path) -> dict:
-    return {"status": "PASS" if steps and all(s["ok"] for s in steps) else "FAIL", "generated_utc": utc_now(), "app": str(app_path),
+    return {"status": "PASS" if steps and all(s["ok"] for s in steps) else "FAIL", "generated_utc": utc_now(), "app": f"{Path(app_path).parent.name}/{Path(app_path).name}",
             "method": "streamlit.testing.v1.AppTest (headless; not a browser)", "steps": steps}
 
 

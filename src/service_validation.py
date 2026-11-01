@@ -129,7 +129,7 @@ def run_service_validation(cfg: dict, package_dir: Path, encoder_factory: Callab
              "result_schema_ordering_uniqueness": schema_ok,
              **{f"input:{k}": v for k, v in behaviour_ok.items()}}
     report = {"stage": "service_validation", "status": "PASS" if all(gates.values()) else "FAIL", "generated_utc": utc_now(),
-              "package": str(package_dir), "model": key, "freeze_fingerprint": svc1.manifest["freeze_fingerprint"], "gates": gates,
+              "package_dir": package_dir.name, "model": key, "freeze_fingerprint": svc1.manifest["freeze_fingerprint"], "gates": gates,
               "reload_consistency": {"n_queries": len(val_ids), "compared_depth": depth, "exact": exact, "tie_aware_equivalent_not_exact": tie,
                                      "not_equivalent": failed, "failing_queries": failures[:10], "tie_tolerance": vc["tie_tolerance"]},
               "end_to_end_metric": {"service_val_ndcg@10": res["aggregate"]["ndcg@10"], "phase5_val_ndcg@10": ref_ndcg, "abs_diff": ndcg_diff,

@@ -20,3 +20,12 @@ artifacts/indexes/
 # smoke-run scratch output
 artifacts/smoke/
 artifacts/service/
+
+# Phase 9: publication safety
+dist/
+requirements.lock.full.txt
+*.backup-*
+*.REJECTED/
+# dataset text is CC BY-NC 2.0: regenerate with scripts/prepare_data.py instead of committing it
+data/processed/corpus_processed.jsonl
+data/processed/queries_processed.jsonl

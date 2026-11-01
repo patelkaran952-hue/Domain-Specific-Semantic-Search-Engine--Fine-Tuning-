@@ -1,3 +1,4 @@
+# Keep data files byte-identical across Windows/Linux (their hashes feed the embedding-cache keys).
 * text=auto
 *.jsonl -text
 *.tsv -text
@@ -5,3 +6,4 @@
 *.faiss binary
 *.npy binary
 *.safetensors binary
+*.png binary

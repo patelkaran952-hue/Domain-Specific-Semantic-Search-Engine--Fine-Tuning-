@@ -1,0 +1,45 @@
+# Whitelist for scripts/export_portfolio.py. Anything not matched is NOT exported (dataset text, weights, embeddings, indexes, .env ...).
+export:
+  default_dest: dist/portfolio
+  include:
+    - README.md
+    - CLAUDE.md
+    - LICENSE*
+    - CITATION.cff
+    - requirements*.txt
+    - .gitignore
+    - .gitattributes
+    - .env.example
+    - src/*.py
+    - app/*.py
+    - scripts/*.py
+    - tests/*.py
+    - configs/*.yaml
+    - docs/**/*
+    - notebooks/*.ipynb
+    - data/rag/off_topic_queries.txt
+    - data/processed/document_ids.json
+    - data/processed/*_query_ids.json
+    - data/processed/train_qrels.tsv
+    - data/processed/val_qrels.tsv
+    - data/mining/*.jsonl
+    - data/mining/mining_settings_*.json
+    - artifacts/reports/*.json
+    - artifacts/reports/*per_query*.csv
+    - experiments/*.csv
+    - checkpoints/manifest.json
+    - checkpoints/phase_*/README.md
+    - checkpoints/phase_*/manifest.json
+    - checkpoints/phase_*/inventory.json
+  exclude:
+    - "**/__pycache__/**"
+    - "*.pyc"
+    - "artifacts/reports/*run_top100*"          # ranked lists (small but unnecessary)
+    - "artifacts/reports/sample_searches.json"  # contains claim text and titles
+    - "artifacts/reports/*backup*"
+    - "artifacts/reports/repo_hygiene_report.json"   # describes the working repo, not the export
+  remap:                                         # measured outputs move under results/ so a reproducer's pipeline starts clean
+    - ["artifacts/reports/", "results/reports/"]
+    - ["experiments/", "results/experiments/"]
+    - ["checkpoints/", "results/checkpoints/"]
+    - ["data/mining/", "results/data_mining/"]
