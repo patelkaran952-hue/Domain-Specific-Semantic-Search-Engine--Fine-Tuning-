@@ -9,6 +9,7 @@
 | **SciFact** claims, abstracts and judgments | **CC BY-NC 2.0** (attribution, **non-commercial**). Abstracts originate from the S2ORC corpus. | Dataset card on Hugging Face (`allenai/scifact`), which points to the project's `LICENSE.md`; project: https://github.com/allenai/scifact |
 | **BEIR** (the packaging/format of SciFact used here) | BEIR *code* is Apache-2.0. BEIR states it redistributes datasets "in a specific format" and does **not** claim you have a license to use the underlying data, so the SciFact terms above govern the data. | https://github.com/beir-cellar/beir |
 | **`sentence-transformers/all-MiniLM-L6-v2`** | Apache-2.0. Fine-tuned from `nreimers/MiniLM-L6-H384-uncased` on over one billion sentence pairs; its card lists S2ORC citation pairs (abstracts) among the sources. | https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2 |
+| **This repository's code** (`src/`, `scripts/`, `app/`, `tests/`, `docs/`) | **Apache License 2.0** (see `LICENSE`). It applies to the code and documentation only, not to SciFact or any model weights. | `LICENSE` |
 | Python libraries (PyTorch, Transformers, Sentence-Transformers, FAISS, Streamlit, NumPy, pandas, scikit-learn, ...) | Open-source licenses declared by each package. Print the license metadata of what you have installed with `python scripts/freeze_environment.py --licenses`. | package metadata |
 
 ## What this repository does and does not contain

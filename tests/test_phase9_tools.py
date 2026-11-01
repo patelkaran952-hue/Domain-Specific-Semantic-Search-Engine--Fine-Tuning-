@@ -256,3 +256,23 @@ def test_python_source_is_copied_verbatim_and_a_path_in_code_blocks_the_export(t
     with pytest.raises(SystemExit, match="REJECTED") as e:
         export_tools.export(root, tmp_path / "o", SPEC)
     assert "private_absolute_path" in str(e.value) and (tmp_path / "o.REJECTED" / "src/b.py").read_text() == "P = '/home/someone/project/'\n"  # hygiene:ok (deliberate fixture)
+
+
+def test_license_file_is_the_unmodified_apache_2_0_text():
+    """Pins the canonical Apache-2.0 text (CRLF-normalized so a Windows checkout does not break the hash)."""
+    raw = (Path(__file__).resolve().parents[1] / "LICENSE").read_bytes().replace(b"\r\n", b"\n")
+    assert hashlib.sha256(raw).hexdigest() == "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+    text = raw.decode("utf-8")
+    assert "Apache License" in text and "Version 2.0, January 2004" in text
+    for section in ("1. Definitions.", "2. Grant of Copyright License.", "3. Grant of Patent License.", "4. Redistribution.", "5. Submission of Contributions.",
+                    "6. Trademarks.", "7. Disclaimer of Warranty.", "8. Limitation of Liability.", "9. Accepting Warranty or Additional Liability."):
+        assert section in text, section
+    assert "END OF TERMS AND CONDITIONS" in text and "APPENDIX: How to apply the Apache License to your work." in text
+
+
+def test_docs_state_the_apache_choice_and_no_longer_say_license_is_pending():
+    root = Path(__file__).resolve().parents[1]
+    readme = (root / "README.md").read_text(encoding="utf-8")
+    assert "Apache License 2.0" in readme and "chosen by its author" not in readme
+    assert "Apache License 2.0" in (root / "docs/DATA_AND_LICENSES.md").read_text(encoding="utf-8")
+    assert "Choose a license for your code" not in (root / "docs/PUBLISHING.md").read_text(encoding="utf-8")

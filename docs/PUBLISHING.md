@@ -15,7 +15,7 @@ python scripts/freeze_environment.py                 # writes requirements.lock.
 python scripts/check_repo_hygiene.py                 # review warnings about the working repo
 python scripts/export_portfolio.py                   # creates dist\portfolio (refuses to overwrite; strict scan must pass)
 ```
-1. **Choose a license for your code** and add a `LICENSE` file to the repository root *before* exporting (for example MIT or Apache-2.0; this is your decision and independent of the data/model licenses). Without one, others have no permission to reuse the code.
+1. **License:** the code is licensed under the Apache License 2.0; the unmodified `LICENSE` file is at the repository root and is exported automatically. It does not relicense SciFact (CC BY-NC 2.0) or any model. Optionally add a `NOTICE` file with your copyright line (Apache-2.0 recommends this; it needs your name and year).
 2. Review `dist\portfolio` (open `PUBLISH_MANIFEST.json`; confirm there are no dataset files, weights or personal paths).
 3. Create the repository from the export:
 ```powershell
@@ -43,7 +43,7 @@ Tools such as `git filter-repo` can remove the processed corpus from every commi
 ## Checklist
 - [ ] README numbers regenerated (`--check` passes)
 - [ ] `check_repo_hygiene.py --mode export --root dist\portfolio` reports PASS
-- [ ] LICENSE added; license/citation notes read ([DATA_AND_LICENSES.md](DATA_AND_LICENSES.md))
+- [ ] LICENSE present (Apache-2.0); license/citation notes read ([DATA_AND_LICENSES.md](DATA_AND_LICENSES.md))
 - [ ] No `.env`, no keys, no dataset text, no weights in the export
 - [ ] Screenshots (if any) are real images taken from your own run, saved in `docs/screenshots/`
 - [ ] You approved the push
